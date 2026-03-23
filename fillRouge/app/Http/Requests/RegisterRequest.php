@@ -19,10 +19,10 @@ class RegisterRequest extends FormRequest
             'email'    => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'confirmed', Password::min(8)],
             'role'     => ['required', 'in:patient,doctor'],
-            // Patient fields
+            
             'phone'    => ['nullable', 'string', 'max:20'],
             'address'  => ['nullable', 'string', 'max:255'],
-            // Doctor fields
+            
             'city'     => ['nullable', 'string', 'max:100'],
             'bio'      => ['nullable', 'string', 'max:1000'],
         ];

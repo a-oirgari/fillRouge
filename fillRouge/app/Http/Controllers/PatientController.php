@@ -59,7 +59,7 @@ class PatientController extends Controller
     {
         $patient = Auth::user()->patient;
 
-        // Vérifier l'absence de doublon
+        
         $exists = Appointment::where('patient_id', $patient->id)
             ->where('doctor_id', $doctor->id)
             ->where('date', $request->date)

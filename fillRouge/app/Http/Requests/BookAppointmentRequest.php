@@ -8,7 +8,7 @@ class BookAppointmentRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // Seul un patient authentifié peut prendre un RDV
+        
         return auth()->check() && auth()->user()->isPatient();
     }
 

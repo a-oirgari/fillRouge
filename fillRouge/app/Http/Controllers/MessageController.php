@@ -38,7 +38,7 @@ class MessageController extends Controller
             $q->where('sender_id', $contact->id)->where('receiver_id', $user->id);
         })->orderBy('sent_at')->get();
 
-        // Marquer comme lus
+        
         Message::where('sender_id', $contact->id)
             ->where('receiver_id', $user->id)
             ->where('read', false)
@@ -49,8 +49,6 @@ class MessageController extends Controller
 
     public function send(SendMessageRequest $request, User $contact)
     {
-        // ✅ Utiliser input() ou validated() — jamais $request->content
-        // car 'content' est une propriété protected dans la classe Request de base
         $message = Message::create([
             'sender_id'   => Auth::id(),
             'receiver_id' => $contact->id,

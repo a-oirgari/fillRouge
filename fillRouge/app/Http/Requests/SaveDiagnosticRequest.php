@@ -8,7 +8,7 @@ class SaveDiagnosticRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // Seul le médecin propriétaire du RDV peut enregistrer un diagnostic
+        
         $appointment = $this->route('appointment');
         return auth()->check()
             && auth()->user()->isDoctor()

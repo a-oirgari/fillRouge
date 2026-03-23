@@ -75,7 +75,7 @@ class DoctorController extends Controller
 
     public function saveDiagnostic(SaveDiagnosticRequest $request, Appointment $appointment)
     {
-        // authorize() est géré dans le FormRequest
+        
         $consultation = $appointment->consultation()->updateOrCreate(
             ['appointment_id' => $appointment->id],
             ['diagnostic' => $request->diagnostic]
