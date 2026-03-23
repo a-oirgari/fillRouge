@@ -3,23 +3,77 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Patient;
+use App\Models\Doctor;
+use App\Models\Speciality;
+use App\Models\Availability;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        
+        User::create([
+            'name'     => 'Admin MediConnect',
+            'email'    => 'admin@mediconnect.ma',
+            'password' => Hash::make('password'),
+            'role'     => 'admin',
         ]);
+
+        
+        $specialities = [
+            'Médecine générale', 'Cardiologie', 'Dermatologie',
+            'Pédiatrie', 'Gynécologie', 'Orthopédie',
+            'Ophtalmologie', 'Neurologie', 'Psychiatrie', 'ORL',
+        ];
+        foreach ($specialities as $name) {
+            Speciality::create(['name' => $name]);
+        }
+
+        
+        $patientUser = User::create([
+            'name'     => 'Ahmed Benali',
+            'email'    => 'patient@mediconnect.ma',
+            'password' => Hash::make('password'),
+            'role'     => 'patient',
+        ]);
+        Patient::create([
+            'user_id' => $patientUser->id,
+            'phone'   => '0612345678',
+            'address' => 'Casablanca, Maroc',
+        ]);
+
+        
+        $doctorUser = User::create([
+            'name'     => 'Dr. Sarah Khalil',
+            'email'    => 'doctor@mediconnect.ma',
+            'password' => Hash::make('password'),
+            'role'     => 'doctor',
+        ]);
+        $doctor = Doctor::create([
+            'user_id'   => $doctorUser->id,
+            'city'      => 'Casablanca',
+            'bio'       => 'Cardiologue avec 10 ans d\'expérience, spécialisée en maladies cardiovasculaires.',
+            'validated' => true,
+            'phone'     => '0622334455',
+        ]);
+        $doctor->specialities()->attach(2); 
+
+        
+        foreach (['Lundi', 'Mercredi', 'Vendredi'] as $day) {
+            Availability::create([
+                'doctor_id'  => $doctor->id,
+                'day'        => $day,
+                'start_time' => '09:00',
+                'end_time'   => '17:00',
+            ]);
+        }
+
+        $this->command->info(' Seeder terminé!');
+        $this->command->info('Admin: admin@mediconnect.ma / password');
+        $this->command->info('Patient: patient@mediconnect.ma / password');
+        $this->command->info('Médecin: doctor@mediconnect.ma / password');
     }
 }
