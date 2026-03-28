@@ -1,0 +1,97 @@
+@extends('layouts.app')
+@section('title', 'Rechercher un médecin')
+
+@section('content')
+<div class="space-y-6">
+    <h1 class="text-2xl font-bold text-gray-800">Trouver un médecin</h1>
+
+    
+    <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+        <form method="GET" action="{{ route('doctors.search') }}" class="flex flex-wrap gap-4 items-end">
+            <div class="flex-1 min-w-[200px]">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Spécialité</label>
+                <select name="speciality_id" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <option value="">Toutes les spécialités</option>
+                    @foreach($specialities as $spec)
+                        <option value="{{ $spec->id }}" {{ request('speciality_id') == $spec->id ? 'selected' : '' }}>
+                            {{ $spec->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="flex-1 min-w-[200px]">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Ville</label>
+                <input type="text" name="city" value="{{ request('city') }}"
+                       placeholder="Casablanca, Rabat..."
+                       class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+
+            <button type="submit"
+                    class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                <i class="fas fa-search"></i> Rechercher
+            </button>
+        </form>
+    </div>
+
+    
+    <div>
+        <p class="text-sm text-gray-500 mb-4">{{ $doctors->total() }} médecin(s) trouvé(s)</p>
+
+        @if($doctors->isEmpty())
+            <div class="text-center py-16 bg-white rounded-2xl border border-gray-100">
+                <i class="fas fa-user-md text-5xl text-gray-300 mb-4"></i>
+                <p class="text-gray-500">Aucun médecin trouvé avec ces critères</p>
+            </div>
+        @else
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                @foreach($doctors as $doctor)
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition">
+                    <div class="flex items-start gap-3 mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            @if($doctor->photo)
+                                <img src="{{ asset('storage/'.$doctor->photo) }}" class="w-12 h-12 rounded-full object-cover">
+                            @else
+                                <i class="fas fa-user-md text-blue-600 text-xl"></i>
+                            @endif
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Dr. {{ $doctor->user->name }}</h3>
+                            <p class="text-sm text-blue-600">
+                                {{ $doctor->specialities->pluck('name')->join(', ') ?: 'Médecin généraliste' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1 text-sm text-gray-500 mb-4">
+                        @if($doctor->city)
+                        <p><i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>{{ $doctor->city }}</p>
+                        @endif
+                        @if($doctor->bio)
+                        <p class="line-clamp-2 text-gray-600">{{ $doctor->bio }}</p>
+                        @endif
+                    </div>
+
+                    <div class="flex gap-2">
+                        <a href="{{ route('doctors.show', $doctor) }}"
+                           class="flex-1 text-center border border-blue-600 text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 transition">
+                            Voir profil
+                        </a>
+                        @auth
+                            @if(auth()->user()->isPatient())
+                            <a href="{{ route('doctors.show', $doctor) }}#book"
+                               class="flex-1 text-center bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                                Prendre RDV
+                            </a>
+                            @endif
+                        @endauth
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <div class="mt-6">{{ $doctors->withQueryString()->links() }}</div>
+        @endif
+    </div>
+</div>
+@endsection
