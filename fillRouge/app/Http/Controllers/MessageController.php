@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Models\User;
+use App\Events\MessageSent;
 use App\Http\Requests\SendMessageRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,9 +37,9 @@ class MessageController extends Controller
             $q->where('sender_id', $user->id)->where('receiver_id', $contact->id);
         })->orWhere(function ($q) use ($user, $contact) {
             $q->where('sender_id', $contact->id)->where('receiver_id', $user->id);
-        })->orderBy('sent_at')->get();
+        })->orderBy('sent_at')->with('sender')->get();
 
-        
+        // Marquer comme lus
         Message::where('sender_id', $contact->id)
             ->where('receiver_id', $user->id)
             ->where('read', false)
@@ -56,9 +57,14 @@ class MessageController extends Controller
             'sent_at'     => now(),
         ]);
 
+        $message->load('sender');
+
+        
+        broadcast(new MessageSent($message));
+
         if ($request->expectsJson()) {
             return response()->json([
-                'message' => $message->load('sender'),
+                'message' => $message,
                 'status'  => 'sent',
             ]);
         }
