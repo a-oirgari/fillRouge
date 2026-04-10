@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
+    public function unreadCount()
+    {
+        $count = Message::where('receiver_id', Auth::id())
+            ->where('read', false)
+            ->count();
+
+        return response()->json(['count' => $count]);
+    }
+
     public function index()
     {
         $user = Auth::user();
@@ -45,7 +54,12 @@ class MessageController extends Controller
             ->where('read', false)
             ->update(['read' => true]);
 
-        return view('messages.conversation', compact('messages', 'contact'));
+        $lastMessageFromContact = Message::where('sender_id', $contact->id)
+            ->where('receiver_id', $user->id)
+            ->latest('sent_at')
+            ->first();
+
+        return view('messages.conversation', compact('messages', 'contact', 'lastMessageFromContact'));
     }
 
     public function send(SendMessageRequest $request, User $contact)

@@ -2,69 +2,76 @@
 @section('title', 'Conversation avec ' . $contact->name)
 
 @section('content')
-<div class="max-w-3xl mx-auto" id="chat-app">
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col" style="height: 600px;">
+<div class="mx-auto flex max-w-3xl flex-col" style="height: calc(100vh - 10rem); min-height: 22rem;" id="chat-app">
+    <div class="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
 
         <!-- Header -->
-        <div class="flex items-center gap-3 p-4 border-b border-gray-100">
-            <a href="{{ route('messages.index') }}" class="text-gray-500 hover:text-gray-700 mr-1">
+        <div class="flex flex-shrink-0 items-center gap-3 border-b border-slate-100 p-4">
+            <a href="{{ route('messages.index') }}" class="mr-1 text-slate-500 transition hover:text-slate-800">
                 <i class="fas fa-arrow-left"></i>
             </a>
-            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                <i class="fas fa-user text-blue-600"></i>
+            <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary-100">
+                <i class="fas fa-user text-primary-700"></i>
             </div>
-            <div>
-                <p class="font-semibold text-gray-800">
+            <div class="min-w-0 flex-1">
+                <p class="truncate font-semibold text-slate-900">
                     {{ $contact->role === 'doctor' ? 'Dr. ' : '' }}{{ $contact->name }}
                 </p>
-                <p class="text-xs text-gray-500 capitalize flex items-center gap-1">
-                    <span id="online-dot" class="w-2 h-2 bg-green-400 rounded-full inline-block"></span>
-                    En ligne
+                <p class="text-xs text-slate-500">
+                    @if($lastMessageFromContact)
+                        Dernier message reçu · {{ $lastMessageFromContact->sent_at->diffForHumans() }}
+                    @else
+                        Pas encore de message de ce contact
+                    @endif
                 </p>
             </div>
         </div>
 
-        <!-- Messages -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-3" id="messages-container">
-            <div v-for="msg in messages" :key="msg.id"
-                 class="flex"
-                 :class="msg.sender_id === {{ auth()->id() }} ? 'justify-end' : 'justify-start'">
-                <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-2xl text-sm"
-                     :class="msg.sender_id === {{ auth()->id() }}
-                         ? 'bg-blue-600 text-white rounded-br-sm'
-                         : 'bg-gray-100 text-gray-800 rounded-bl-sm'">
-                    <p>@{{ msg.content }}</p>
-                    <p class="text-xs mt-1 opacity-60">@{{ formatTime(msg.sent_at) }}</p>
+        <!-- Messages (scroll) -->
+        <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4" id="messages-container">
+            <div class="space-y-3">
+                <div v-for="msg in messages" :key="msg.id"
+                     class="flex"
+                     :class="msg.sender_id === {{ auth()->id() }} ? 'justify-end' : 'justify-start'">
+                    <div class="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm sm:max-w-md"
+                         :class="msg.sender_id === {{ auth()->id() }}
+                             ? 'rounded-br-md bg-primary-600 text-white shadow-sm'
+                             : 'rounded-bl-md border border-slate-100 bg-slate-100 text-slate-800'">
+                        <p class="whitespace-pre-wrap break-words">@{{ msg.content }}</p>
+                        <p class="mt-1 text-xs opacity-70">@{{ formatTime(msg.sent_at) }}</p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Indicateur "en train d'écrire" -->
-            <div v-if="isTyping" class="flex justify-start">
-                <div class="bg-gray-100 text-gray-500 px-4 py-2 rounded-2xl rounded-bl-sm text-sm flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:0s"></span>
-                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:0.15s"></span>
-                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:0.3s"></span>
+                <div v-if="isTyping" class="flex justify-start">
+                    <div class="flex items-center gap-1 rounded-2xl rounded-bl-md border border-slate-100 bg-slate-100 px-4 py-2.5 text-sm text-slate-500">
+                        <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-400" style="animation-delay:0s"></span>
+                        <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-400" style="animation-delay:0.15s"></span>
+                        <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-400" style="animation-delay:0.3s"></span>
+                    </div>
                 </div>
-            </div>
 
-            <div v-if="messages.length === 0" class="text-center text-gray-400 py-10">
-                <i class="fas fa-comment-dots text-4xl mb-3"></i>
-                <p>Démarrez la conversation</p>
+                <div v-if="messages.length === 0" class="py-12 text-center text-slate-400">
+                    <i class="fas fa-comment-dots mb-3 text-4xl opacity-50"></i>
+                    <p class="text-sm">Démarrez la conversation</p>
+                </div>
             </div>
         </div>
 
-        <!-- Zone de saisie -->
-        <div class="p-4 border-t border-gray-100">
-            <form @submit.prevent="sendMessage" class="flex gap-3">
+        <!-- Zone de saisie (toujours visible en bas) -->
+        <div class="flex-shrink-0 border-t border-slate-100 bg-slate-50/80 p-3 sm:p-4">
+            <form @submit.prevent="sendMessage" class="flex gap-2 sm:gap-3">
                 <input v-model="newMessage"
                        type="text"
-                       placeholder="Écrire un message..."
-                       class="flex-1 border border-gray-300 rounded-full px-5 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                       autocomplete="off"
+                       placeholder="Écrire un message…"
+                       class="min-h-[2.75rem] flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
                        :disabled="sending">
                 <button type="submit"
-                        class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition disabled:opacity-50"
-                        :disabled="!newMessage.trim() || sending">
-                    <i class="fas fa-paper-plane text-sm"></i>
+                        class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white shadow-sm transition hover:bg-primary-700 disabled:opacity-50 sm:h-11 sm:w-auto sm:px-5"
+                        :disabled="!newMessage.trim() || sending"
+                        aria-label="Envoyer">
+                    <i class="fas fa-paper-plane text-sm sm:mr-2"></i>
+                    <span class="hidden sm:inline">Envoyer</span>
                 </button>
             </form>
         </div>
@@ -73,20 +80,15 @@
 @endsection
 
 @push('scripts')
-{{-- Vue 3 --}}
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
-{{-- Laravel Echo + Pusher JS (compatible Reverb) --}}
-<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script>
-
-const pusher = new Pusher('{{ env("REVERB_APP_KEY") }}', {
-    wsHost:           '{{ env("REVERB_HOST", "localhost") }}',
-    wsPort:           {{ env("REVERB_PORT", 8080) }},
-    wssPort:          {{ env("REVERB_PORT", 8080) }},
+const pusher = window.MediConnectPusher || new Pusher('{{ config('reverb.apps.apps.0.key', env('REVERB_APP_KEY')) }}', {
+    wsHost:           '{{ config('reverb.apps.apps.0.options.host', env('REVERB_HOST', 'localhost')) }}',
+    wsPort:           {{ (int) config('reverb.apps.apps.0.options.port', env('REVERB_PORT', 8080)) }},
+    wssPort:          {{ (int) config('reverb.apps.apps.0.options.port', env('REVERB_PORT', 8080)) }},
     forceTLS:         false,
     enabledTransports: ['ws', 'wss'],
-    cluster:          'mt1', // requis par Pusher JS mais ignoré par Reverb
+    cluster:          'mt1',
     authEndpoint:     '/broadcasting/auth',
     auth: {
         headers: {
@@ -111,7 +113,6 @@ createApp({
         const sending     = ref(false);
         const isTyping    = ref(false);
 
-        // ---- Helpers ----
         const scrollToBottom = () => {
             nextTick(() => {
                 const c = document.getElementById('messages-container');
@@ -126,15 +127,12 @@ createApp({
             });
         };
 
-        // ---- WebSocket : écouter les nouveaux messages ----
         let channel = null;
 
         const subscribeToChannel = () => {
             channel = pusher.subscribe(channelName);
 
-            
             channel.bind('message.sent', (data) => {
-                
                 const alreadyExists = messages.value.some(m => m.id === data.id);
                 if (!alreadyExists) {
                     messages.value.push(data);
@@ -144,7 +142,6 @@ createApp({
             });
         };
 
-        
         const sendMessage = async () => {
             if (!newMessage.value.trim()) return;
             sending.value = true;
@@ -165,19 +162,17 @@ createApp({
 
                 const data = await res.json();
 
-                // Ajouter notre message immédiatement dans l'UI
                 messages.value.push(data.message);
                 scrollToBottom();
 
             } catch (e) {
                 console.error('Erreur envoi message:', e);
-                newMessage.value = content; // Remettre le texte si erreur
+                newMessage.value = content;
             } finally {
                 sending.value = false;
             }
         };
 
-        
         onMounted(() => {
             subscribeToChannel();
             scrollToBottom();

@@ -64,6 +64,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 
 Route::middleware('auth')->prefix('messages')->name('messages.')->group(function () {
+    Route::get('/unread-count', [MessageController::class, 'unreadCount'])->name('unread-count');
     Route::get('/', [MessageController::class, 'index'])->name('index');
     Route::get('/{contact}', [MessageController::class, 'conversation'])->name('conversation');
     Route::post('/{contact}', [MessageController::class, 'send'])->name('send');
