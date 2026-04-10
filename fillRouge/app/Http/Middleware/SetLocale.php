@@ -4,24 +4,23 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
 
 class SetLocale
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $supported = config('locales.supported', ['fr']);
-        $locale = session('locale', config('app.locale'));
+        $available = config('app.available_locales', ['fr', 'ar']);
+        $locale = session('locale', config('app.locale', 'fr'));
 
-        if (! in_array($locale, $supported, true)) {
-            $locale = config('app.locale');
+        if (! in_array($locale, $available, true)) {
+            $locale = 'fr';
         }
 
-        App::setLocale($locale);
+        app()->setLocale($locale);
 
         if (class_exists(\Carbon\Carbon::class)) {
-            \Carbon\Carbon::setLocale($locale);
+            \Carbon\Carbon::setLocale($locale === 'ar' ? 'ar' : 'fr');
         }
 
         return $next($request);

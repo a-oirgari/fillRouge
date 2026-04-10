@@ -6,16 +6,21 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MessageController;
-use App\Http\Controllers\LocaleController;
 
-
-Route::post('/locale/{locale}', [LocaleController::class, 'switch'])
-    ->name('locale.switch')
-    ->where('locale', 'fr|ar');
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/locale/{locale}', function (string $locale) {
+    $available = config('app.available_locales', ['fr', 'ar']);
+    if (! in_array($locale, $available, true)) {
+        abort(404);
+    }
+    session(['locale' => $locale]);
+
+    return redirect()->back();
+})->name('locale.switch');
 
 
 Route::middleware('guest')->group(function () {

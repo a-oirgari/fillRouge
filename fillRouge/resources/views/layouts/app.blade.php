@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'MediConnect') }} — @yield('title', __('app.title_default'))</title>
+    <title>MediConnect — @yield('title', __('app.meta.default_title'))</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -15,7 +15,8 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', '"Noto Sans Arabic"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        arabic: ['"Noto Sans Arabic"', '"Plus Jakarta Sans"', 'sans-serif'],
                     },
                     colors: {
                         primary: {
@@ -30,6 +31,14 @@
                             800: '#1e40af',
                             900: '#1e3a8a',
                         },
+                        surface: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                        },
+                    },
+                    backgroundImage: {
+                        'page-gradient': 'linear-gradient(165deg, #e8f0fe 0%, #f1f5f9 38%, #eef2ff 100%)',
                     },
                 },
             },
@@ -39,69 +48,68 @@
     @stack('styles')
 </head>
 
-<body class="min-h-screen bg-slate-100 font-sans text-slate-800 antialiased">
+<body class="min-h-screen bg-page-gradient font-sans text-slate-800 antialiased {{ app()->getLocale() === 'ar' ? 'font-arabic' : '' }}">
 
 
-    <nav class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+    <nav class="sticky top-0 z-50 border-b border-slate-200/90 bg-white/85 shadow-sm backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <a href="{{ route('home') }}" class="flex items-center gap-2.5">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-600 text-white shadow-sm">
+            <div class="flex h-16 items-center justify-between gap-3">
+                <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2.5">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary-600 to-primary-800 text-white shadow-md">
                         <i class="fas fa-heartbeat text-lg"></i>
                     </span>
-                    <span class="text-xl font-bold tracking-tight text-primary-700">{{ __('app.name') }}</span>
+                    <span class="text-xl font-bold tracking-tight text-slate-900">MediConnect</span>
                 </a>
 
-                <div class="flex items-center gap-3 md:gap-5">
-                    <div class="inline-flex items-center rounded-lg border border-slate-200 bg-white p-0.5 shadow-sm" title="{{ __('nav.language') }}">
-                        <form method="POST" action="{{ route('locale.switch', 'fr') }}" class="inline">@csrf
-                            <button type="submit" lang="fr"
-                                class="rounded-md px-2 py-1 text-xs font-semibold {{ app()->getLocale() === 'fr' ? 'bg-primary-600 text-white' : 'text-slate-500 hover:text-slate-800' }}">FR</button>
-                        </form>
-                        <form method="POST" action="{{ route('locale.switch', 'ar') }}" class="inline">@csrf
-                            <button type="submit" lang="ar"
-                                class="rounded-md px-2 py-1 text-xs font-semibold {{ app()->getLocale() === 'ar' ? 'bg-primary-600 text-white' : 'text-slate-500 hover:text-slate-800' }}">عربي</button>
-                        </form>
+                <div class="flex flex-wrap items-center justify-end gap-2 sm:gap-4 md:gap-5">
+                    {{-- Sélecteur de langue --}}
+                    <div class="flex items-center rounded-lg border border-slate-200/90 bg-surface-50 p-0.5 text-xs font-semibold shadow-sm">
+                        <a href="{{ route('locale.switch', ['locale' => 'fr']) }}"
+                           class="rounded-md px-2.5 py-1.5 transition {{ app()->getLocale() === 'fr' ? 'bg-white text-primary-700 shadow-sm' : 'text-slate-500 hover:text-slate-800' }}">FR</a>
+                        <a href="{{ route('locale.switch', ['locale' => 'ar']) }}"
+                           class="rounded-md px-2.5 py-1.5 transition {{ app()->getLocale() === 'ar' ? 'bg-white text-primary-700 shadow-sm' : 'text-slate-500 hover:text-slate-800' }}">عربي</a>
                     </div>
 
-                    <a href="{{ route('doctors.search') }}" class="text-sm font-medium text-slate-600 hover:text-primary-700 transition">
-                        <i class="fas fa-search me-1 text-primary-600/80"></i>{{ __('nav.doctors') }}
+                    <a href="{{ route('doctors.search') }}" class="text-sm font-medium text-slate-600 transition hover:text-primary-700">
+                        <span class="inline-flex items-center gap-1.5">
+                            <i class="fas fa-search text-primary-600/90"></i> {{ __('app.nav.doctors') }}
+                        </span>
                     </a>
 
                     @auth
                         @if(auth()->user()->isPatient())
-                            <a href="{{ route('patient.dashboard') }}" class="hidden sm:inline text-sm font-medium text-slate-600 hover:text-primary-700 transition">{{ __('nav.dashboard') }}</a>
-                            <a href="{{ route('patient.appointments') }}" class="hidden md:inline text-sm font-medium text-slate-600 hover:text-primary-700 transition">{{ __('nav.my_appointments') }}</a>
+                            <a href="{{ route('patient.dashboard') }}" class="text-sm font-medium text-slate-600 transition hover:text-primary-700">{{ __('app.nav.dashboard') }}</a>
+                            <a href="{{ route('patient.appointments') }}" class="text-sm font-medium text-slate-600 transition hover:text-primary-700">{{ __('app.nav.my_appointments') }}</a>
                         @elseif(auth()->user()->isDoctor())
-                            <a href="{{ route('doctor.dashboard') }}" class="hidden sm:inline text-sm font-medium text-slate-600 hover:text-primary-700 transition">{{ __('nav.dashboard') }}</a>
+                            <a href="{{ route('doctor.dashboard') }}" class="text-sm font-medium text-slate-600 transition hover:text-primary-700">{{ __('app.nav.dashboard') }}</a>
                             <a href="{{ route('doctor.appointments') }}"
-                                class="hidden md:inline text-sm font-medium text-slate-600 hover:text-primary-700 transition">{{ __('nav.appointments') }}</a>
+                                class="text-sm font-medium text-slate-600 transition hover:text-primary-700">{{ __('app.nav.appointments') }}</a>
                         @elseif(auth()->user()->isAdmin())
-                            <a href="{{ route('admin.dashboard') }}" class="hidden sm:inline text-sm font-medium text-slate-600 hover:text-primary-700 transition">{{ __('nav.admin') }}</a>
+                            <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium text-slate-600 transition hover:text-primary-700">{{ __('app.nav.admin') }}</a>
                         @endif
 
                         <a href="{{ route('messages.index') }}" id="nav-messages-link"
                            class="relative inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 hover:text-primary-700"
-                           title="{{ __('nav.messages') }}">
+                           title="{{ __('app.nav.messages') }}">
                             <i class="fas fa-envelope text-lg"></i>
                             <span id="nav-msg-badge" class="absolute end-1 top-1 hidden min-h-[1.125rem] min-w-[1.125rem] rounded-full bg-primary-600 px-1 text-center text-[0.65rem] font-bold leading-tight text-white">0</span>
                         </a>
 
-                        <div class="flex items-center gap-3 border-s border-slate-200 ps-3">
+                        <div class="flex items-center gap-2 border-s border-slate-200 ps-2 sm:ps-3">
                             <span class="hidden max-w-[10rem] truncate text-sm font-medium text-slate-700 sm:inline">{{ auth()->user()->name }}</span>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
                                     class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900">
-                                    <i class="fas fa-sign-out-alt text-slate-500"></i> {{ __('nav.logout') }}
+                                    <i class="fas fa-sign-out-alt text-slate-500"></i> {{ __('app.nav.logout') }}
                                 </button>
                             </form>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm font-medium text-slate-600 hover:text-primary-700 transition">{{ __('nav.login') }}</a>
+                        <a href="{{ route('login') }}" class="text-sm font-medium text-slate-600 transition hover:text-primary-700">{{ __('app.nav.login') }}</a>
                         <a href="{{ route('register') }}"
                             class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                            {{ __('nav.register') }}
+                            {{ __('app.nav.register') }}
                         </a>
                     @endauth
                 </div>
@@ -111,29 +119,29 @@
 
 
     @if(session('success'))
-        <div class="bg-emerald-50 border-l-4 border-emerald-400 p-4 mx-4 mt-4 rounded" x-data
+        <div class="mx-4 mt-4 rounded border-s-4 border-emerald-400 bg-emerald-50/95 p-4 shadow-sm" x-data
             x-init="setTimeout(() => $el.remove(), 4000)">
-            <p class="text-emerald-800"><i class="fas fa-check-circle me-2"></i>{{ session('success') }}</p>
+            <p class="text-emerald-900"><i class="fas fa-check-circle me-2"></i>{{ session('success') }}</p>
         </div>
     @endif
 
     @if($errors->any())
-        <div class="bg-red-50 border-l-4 border-red-400 p-4 mx-4 mt-4 rounded">
+        <div class="mx-4 mt-4 rounded border-s-4 border-red-400 bg-red-50 p-4">
             @foreach($errors->all() as $error)
-                <p class="text-red-700 text-sm"><i class="fas fa-exclamation-circle me-2"></i>{{ $error }}</p>
+                <p class="text-sm text-red-800"><i class="fas fa-exclamation-circle me-2"></i>{{ $error }}</p>
             @endforeach
         </div>
     @endif
 
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         @yield('content')
     </main>
 
 
-    <footer class="mt-16 border-t border-slate-200 bg-white py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-slate-500">
-            <p>&copy; {{ date('Y') }} {{ __('app.name') }} — {{ __('footer.copyright') }}</p>
+    <footer class="mt-16 border-t border-slate-200/90 bg-slate-900 py-10 text-slate-300">
+        <div class="mx-auto max-w-7xl px-4 text-center text-sm">
+            <p>&copy; {{ date('Y') }} MediConnect — {{ __('app.footer.tagline') }}</p>
         </div>
     </footer>
 
