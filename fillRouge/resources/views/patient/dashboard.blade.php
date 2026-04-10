@@ -1,96 +1,92 @@
 @extends('layouts.app')
-@section('title', __('nav.dashboard'))
+@section('title', __('patient.dashboard.meta_title'))
 
 @section('content')
 <div class="space-y-8">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div class="border-l-4 border-primary-600 ps-4 rtl:border-l-0 rtl:border-r-4 rtl:pe-4 rtl:ps-0">
-            <h1 class="text-2xl font-bold tracking-tight text-slate-900">{{ __('patient.dashboard.title', ['name' => auth()->user()->name]) }}</h1>
-            <p class="mt-1 text-slate-600">{{ __('patient.dashboard.subtitle') }}</p>
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800">{{ __('patient.dashboard.title', ['name' => auth()->user()->name]) }}</h1>
+            <p class="text-gray-500">{{ __('patient.dashboard.subtitle') }}</p>
         </div>
         <a href="{{ route('doctors.search') }}"
-           class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-primary-700">
-            <i class="fas fa-calendar-plus"></i> {{ __('patient.dashboard.cta_book') }}
+           class="bg-primary-600 text-white px-5 py-2.5 rounded-xl font-medium hover:bg-primary-700 transition flex items-center gap-2">
+            <i class="fas fa-plus"></i> {{ __('patient.dashboard.cta_book') }}
         </a>
     </div>
 
-    <div class="rounded-2xl border border-slate-300/50 bg-white/90 p-6 shadow-md ring-1 ring-slate-900/5 backdrop-blur-sm">
-        <h2 class="mb-5 flex items-center gap-2 border-b border-slate-200/80 pb-3 text-lg font-semibold text-slate-900">
-            <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-100 text-primary-700">
-                <i class="fas fa-calendar-check"></i>
-            </span>
+    <div class="bg-white rounded-2xl shadow-sm p-6 border border-slate-200/90">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <i class="fas fa-calendar-check text-primary-600"></i>
             {{ __('patient.dashboard.upcoming') }}
         </h2>
 
         @if($upcomingAppointments->isEmpty())
-            <div class="rounded-xl bg-slate-50/80 py-10 text-center text-slate-500">
-                <i class="fas fa-calendar-xmark mb-3 text-4xl text-slate-300"></i>
+            <div class="text-center py-8 text-gray-400">
+                <i class="fas fa-calendar-xmark text-4xl mb-3"></i>
                 <p>{{ __('patient.dashboard.no_upcoming') }}</p>
-                <a href="{{ route('doctors.search') }}" class="mt-3 inline-block text-sm font-medium text-primary-600 hover:text-primary-800">
+                <a href="{{ route('doctors.search') }}" class="text-primary-600 hover:underline text-sm mt-2 inline-block">
                     {{ __('patient.dashboard.find_doctor') }}
                 </a>
             </div>
         @else
             <div class="space-y-3">
                 @foreach($upcomingAppointments as $apt)
-                <div class="flex flex-col gap-3 rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
                     <div class="flex items-center gap-3">
-                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-700">
-                            <i class="fas fa-user-md"></i>
+                        <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user-md text-primary-600"></i>
                         </div>
                         <div>
-                            <p class="font-medium text-slate-900">Dr. {{ $apt->doctor->user->name }}</p>
-                            <p class="text-sm text-slate-600">
+                            <p class="font-medium text-gray-800">Dr. {{ $apt->doctor->user->name }}</p>
+                            <p class="text-sm text-gray-500">
                                 {{ $apt->doctor->specialities->pluck('name')->join(', ') }}
                             </p>
                         </div>
                     </div>
-                    <div class="text-start sm:text-end">
-                        <p class="text-sm font-medium text-slate-800">{{ $apt->date->format('d/m/Y') }}</p>
-                        <p class="text-xs text-slate-500">{{ $apt->date->format('H:i') }}</p>
-                        <span class="mt-1 inline-block rounded-full px-2.5 py-0.5 text-xs font-medium
-                            {{ $apt->status === 'accepted' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
+                    <div class="text-right">
+                        <p class="text-sm font-medium text-gray-700">{{ $apt->date->format('d/m/Y') }}</p>
+                        <p class="text-xs text-gray-500">{{ $apt->date->format('H:i') }}</p>
+                        <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium
+                            {{ $apt->status === 'accepted' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
                             {{ __('appointment.status.'.$apt->status) }}
                         </span>
                     </div>
                 </div>
                 @endforeach
             </div>
-            <a href="{{ route('patient.appointments') }}" class="mt-4 inline-block text-sm font-medium text-primary-600 hover:text-primary-800">
+            <a href="{{ route('patient.appointments') }}" class="text-primary-600 text-sm hover:underline mt-4 inline-block">
                 {{ __('patient.dashboard.see_all_apt') }} →
             </a>
         @endif
     </div>
 
-    <div class="rounded-2xl border border-slate-300/50 bg-white/90 p-6 shadow-md ring-1 ring-slate-900/5 backdrop-blur-sm">
-        <h2 class="mb-5 flex items-center gap-2 border-b border-slate-200/80 pb-3 text-lg font-semibold text-slate-900">
-            <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-200/80 text-slate-700">
-                <i class="fas fa-clock-rotate-left"></i>
-            </span>
+    <div class="bg-white rounded-2xl shadow-sm p-6 border border-slate-200/90">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <i class="fas fa-history text-violet-600"></i>
             {{ __('patient.dashboard.history') }}
         </h2>
 
         @if($recentHistory->isEmpty())
-            <p class="rounded-xl bg-slate-50/80 py-8 text-center text-slate-500">{{ __('patient.dashboard.no_history') }}</p>
+            <p class="text-gray-400 text-center py-6">{{ __('patient.dashboard.no_history') }}</p>
         @else
             <div class="space-y-3">
                 @foreach($recentHistory as $apt)
-                <div class="flex flex-col gap-2 rounded-xl border border-slate-200/80 bg-slate-50/50 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
                     <div>
-                        <p class="font-medium text-slate-900">Dr. {{ $apt->doctor->user->name }}</p>
-                        <p class="text-sm text-slate-600">{{ $apt->date->format('d/m/Y') }}</p>
+                        <p class="font-medium text-gray-800">Dr. {{ $apt->doctor->user->name }}</p>
+                        <p class="text-sm text-gray-500">{{ $apt->date->format('d/m/Y') }}</p>
                         @if($apt->consultation)
-                            <p class="mt-1 line-clamp-1 text-xs text-slate-600">
-                                <i class="fas fa-stethoscope me-1 text-slate-500"></i>
+                            <p class="text-xs text-gray-600 mt-1 line-clamp-1">
+                                <i class="fas fa-stethoscope mr-1 text-violet-500"></i>
                                 {{ Str::limit($apt->consultation->diagnostic, 60) }}
                             </p>
                         @endif
                     </div>
-                    <span class="shrink-0 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800">{{ __('patient.dashboard.completed') }}</span>
+                    <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs font-medium">{{ __('patient.dashboard.completed') }}</span>
                 </div>
                 @endforeach
             </div>
-            <a href="{{ route('patient.history') }}" class="mt-4 inline-block text-sm font-medium text-primary-600 hover:text-primary-800">
+            <a href="{{ route('patient.history') }}" class="text-primary-600 text-sm hover:underline mt-4 inline-block">
                 {{ __('patient.dashboard.see_full_history') }} →
             </a>
         @endif

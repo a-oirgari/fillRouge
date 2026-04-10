@@ -3,10 +3,10 @@
 
 @section('content')
 <div class="mx-auto flex max-w-3xl flex-col" style="height: calc(100vh - 10rem); min-height: 22rem;" id="chat-app">
-    <div class="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-300/50 bg-white/95 shadow-md ring-1 ring-slate-900/5 backdrop-blur-sm">
+    <div class="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
 
-        <div class="flex flex-shrink-0 items-center gap-3 border-b border-slate-200/80 p-4">
-            <a href="{{ route('messages.index') }}" class="me-1 text-slate-500 transition hover:text-slate-800">
+        <div class="flex flex-shrink-0 items-center gap-3 border-b border-slate-100 p-4">
+            <a href="{{ route('messages.index') }}" class="mr-1 text-slate-500 transition hover:text-slate-800">
                 <i class="fas fa-arrow-left"></i>
             </a>
             <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary-100">
@@ -49,13 +49,13 @@
                 </div>
 
                 <div v-if="messages.length === 0" class="py-12 text-center text-slate-400">
-                    <i class="fas fa-comments mb-3 text-4xl opacity-50"></i>
+                    <i class="fas fa-comment-dots mb-3 text-4xl opacity-50"></i>
                     <p class="text-sm">{{ __('messages.start_conversation') }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="flex-shrink-0 border-t border-slate-200/80 bg-slate-50/90 p-3 sm:p-4">
+        <div class="flex-shrink-0 border-t border-slate-100 bg-slate-50/80 p-3 sm:p-4">
             <form @submit.prevent="sendMessage" class="flex gap-2 sm:gap-3">
                 <input v-model="newMessage"
                        type="text"
@@ -67,7 +67,7 @@
                         class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white shadow-sm transition hover:bg-primary-700 disabled:opacity-50 sm:h-11 sm:w-auto sm:px-5"
                         :disabled="!newMessage.trim() || sending"
                         aria-label="{{ __('messages.send') }}">
-                    <i class="fas fa-paper-plane text-sm sm:me-2"></i>
+                    <i class="fas fa-paper-plane text-sm sm:mr-2"></i>
                     <span class="hidden sm:inline">{{ __('messages.send') }}</span>
                 </button>
             </form>
@@ -94,13 +94,11 @@ const pusher = window.MediConnectPusher || new Pusher('{{ config('reverb.apps.ap
     }
 });
 
-
 const currentUserId = {{ auth()->id() }};
 const contactId     = {{ $contact->id }};
 const ids = [currentUserId, contactId].sort((a, b) => a - b);
 const channelName = `private-chat.${ids[0]}.${ids[1]}`;
 const timeLocale = @json(app()->getLocale() === 'ar' ? 'ar' : 'fr-FR');
-
 
 const { createApp, ref, onMounted, nextTick, onUnmounted } = Vue;
 

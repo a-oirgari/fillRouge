@@ -34,40 +34,40 @@
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-12 scroll-mt-24">
     <a id="section-trouver-medecin" href="{{ route('doctors.search') }}"
-       class="group block rounded-2xl border border-slate-300/50 bg-white/90 p-6 text-center shadow-md ring-1 ring-slate-900/5 backdrop-blur-sm transition hover:border-primary-300 hover:shadow-lg">
-        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 transition group-hover:bg-primary-50">
-            <i class="fas fa-search text-2xl text-primary-700"></i>
+       class="group block rounded-2xl border border-slate-200/80 bg-white p-6 text-center shadow-sm transition hover:border-primary-200 hover:shadow-md">
+        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-100 transition group-hover:bg-blue-50">
+            <i class="fas fa-search text-2xl text-blue-600"></i>
         </div>
-        <h3 class="mb-2 text-lg font-semibold text-slate-900 group-hover:text-primary-800">{{ __('welcome.card_find_title') }}</h3>
+        <h3 class="mb-2 text-lg font-semibold text-slate-800 group-hover:text-primary-700">{{ __('welcome.card_find_title') }}</h3>
         <p class="text-sm leading-relaxed text-slate-600">{{ __('welcome.card_find_desc') }}</p>
         <span class="mt-4 inline-block text-sm font-medium text-primary-600 opacity-0 transition group-hover:opacity-100">{{ __('welcome.card_find_hover') }} →</span>
     </a>
 
     <div id="section-rendez-vous"
-         class="rounded-2xl border border-slate-300/50 bg-white/90 p-6 text-center shadow-md ring-1 ring-slate-900/5 backdrop-blur-sm transition hover:border-emerald-300/80 hover:shadow-lg">
-        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100/80">
-            <i class="fas fa-calendar-check text-2xl text-emerald-700"></i>
+         class="rounded-2xl border border-slate-200/80 bg-white p-6 text-center shadow-sm transition hover:border-emerald-200 hover:shadow-md">
+        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100">
+            <i class="fas fa-calendar-check text-2xl text-emerald-600"></i>
         </div>
-        <h3 class="mb-2 text-lg font-semibold text-slate-900">{{ __('welcome.card_book_title') }}</h3>
+        <h3 class="mb-2 text-lg font-semibold text-slate-800">{{ __('welcome.card_book_title') }}</h3>
         <p class="text-sm leading-relaxed text-slate-600">{{ __('welcome.card_book_desc') }}</p>
     </div>
 
     <div id="section-ordonnance"
-         class="rounded-2xl border border-slate-300/50 bg-white/90 p-6 text-center shadow-md ring-1 ring-slate-900/5 backdrop-blur-sm transition hover:border-violet-300/80 hover:shadow-lg">
-        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-violet-100/80">
-            <i class="fas fa-file-medical text-2xl text-violet-700"></i>
+         class="rounded-2xl border border-slate-200/80 bg-white p-6 text-center shadow-sm transition hover:border-violet-200 hover:shadow-md">
+        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-violet-100">
+            <i class="fas fa-file-medical text-2xl text-violet-600"></i>
         </div>
-        <h3 class="mb-2 text-lg font-semibold text-slate-900">{{ __('welcome.card_rx_title') }}</h3>
+        <h3 class="mb-2 text-lg font-semibold text-slate-800">{{ __('welcome.card_rx_title') }}</h3>
         <p class="text-sm leading-relaxed text-slate-600">{{ __('welcome.card_rx_desc') }}</p>
     </div>
 </div>
 
 
-<div class="rounded-2xl bg-gradient-to-br from-primary-700 to-primary-900 p-8 text-center text-white shadow-xl ring-1 ring-primary-900/20">
+<div class="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-8 text-center text-white shadow-lg">
     <h2 class="mb-2 text-2xl font-bold tracking-tight">{{ __('welcome.cta_doctor_title') }}</h2>
-    <p class="mb-6 text-primary-100/95">{{ __('welcome.cta_doctor_desc') }}</p>
+    <p class="mb-6 text-primary-100">{{ __('welcome.cta_doctor_desc') }}</p>
     <a href="{{ route('register') }}"
-       class="inline-block rounded-xl bg-white px-6 py-3 font-semibold text-primary-800 shadow-md transition hover:bg-primary-50">
+       class="inline-block rounded-xl bg-white px-6 py-3 font-semibold text-primary-700 shadow-sm transition hover:bg-primary-50">
         {{ __('welcome.cta_doctor_button') }}
     </a>
 </div>
