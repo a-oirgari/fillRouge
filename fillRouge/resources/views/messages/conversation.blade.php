@@ -1,10 +1,11 @@
 @extends('layouts.app')
-@section('title', __('messages.conversation_with', ['name' => ($contact->role === 'doctor' ? 'Dr. ' : '').$contact->name]))
+@section('title', 'Conversation avec ' . $contact->name)
 
 @section('content')
 <div class="mx-auto flex max-w-3xl flex-col" style="height: calc(100vh - 10rem); min-height: 22rem;" id="chat-app">
     <div class="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
 
+        <!-- Header -->
         <div class="flex flex-shrink-0 items-center gap-3 border-b border-slate-100 p-4">
             <a href="{{ route('messages.index') }}" class="mr-1 text-slate-500 transition hover:text-slate-800">
                 <i class="fas fa-arrow-left"></i>
@@ -18,14 +19,15 @@
                 </p>
                 <p class="text-xs text-slate-500">
                     @if($lastMessageFromContact)
-                        {{ __('messages.last_received', ['time' => $lastMessageFromContact->sent_at->diffForHumans()]) }}
+                        Dernier message reçu · {{ $lastMessageFromContact->sent_at->diffForHumans() }}
                     @else
-                        {{ __('messages.no_outbound_yet') }}
+                        Pas encore de message de ce contact
                     @endif
                 </p>
             </div>
         </div>
 
+        <!-- Messages (scroll) -->
         <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4" id="messages-container">
             <div class="space-y-3">
                 <div v-for="msg in messages" :key="msg.id"
@@ -50,25 +52,26 @@
 
                 <div v-if="messages.length === 0" class="py-12 text-center text-slate-400">
                     <i class="fas fa-comment-dots mb-3 text-4xl opacity-50"></i>
-                    <p class="text-sm">{{ __('messages.start_conversation') }}</p>
+                    <p class="text-sm">Démarrez la conversation</p>
                 </div>
             </div>
         </div>
 
+        <!-- Zone de saisie (toujours visible en bas) -->
         <div class="flex-shrink-0 border-t border-slate-100 bg-slate-50/80 p-3 sm:p-4">
             <form @submit.prevent="sendMessage" class="flex gap-2 sm:gap-3">
                 <input v-model="newMessage"
                        type="text"
                        autocomplete="off"
-                       placeholder="{{ __('messages.placeholder') }}"
+                       placeholder="Écrire un message…"
                        class="min-h-[2.75rem] flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
                        :disabled="sending">
                 <button type="submit"
                         class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white shadow-sm transition hover:bg-primary-700 disabled:opacity-50 sm:h-11 sm:w-auto sm:px-5"
                         :disabled="!newMessage.trim() || sending"
-                        aria-label="{{ __('messages.send') }}">
+                        aria-label="Envoyer">
                     <i class="fas fa-paper-plane text-sm sm:mr-2"></i>
-                    <span class="hidden sm:inline">{{ __('messages.send') }}</span>
+                    <span class="hidden sm:inline">Envoyer</span>
                 </button>
             </form>
         </div>
@@ -94,11 +97,12 @@ const pusher = window.MediConnectPusher || new Pusher('{{ config('reverb.apps.ap
     }
 });
 
+
 const currentUserId = {{ auth()->id() }};
 const contactId     = {{ $contact->id }};
 const ids = [currentUserId, contactId].sort((a, b) => a - b);
 const channelName = `private-chat.${ids[0]}.${ids[1]}`;
-const timeLocale = @json(app()->getLocale() === 'ar' ? 'ar' : 'fr-FR');
+
 
 const { createApp, ref, onMounted, nextTick, onUnmounted } = Vue;
 
@@ -118,7 +122,7 @@ createApp({
 
         const formatTime = (datetime) => {
             if (!datetime) return '';
-            return new Date(datetime).toLocaleTimeString(timeLocale, {
+            return new Date(datetime).toLocaleTimeString('fr-FR', {
                 hour: '2-digit', minute: '2-digit'
             });
         };
