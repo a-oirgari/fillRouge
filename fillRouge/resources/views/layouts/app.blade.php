@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>MediConnect - @yield('title', 'Plateforme de téléconsultation')</title>
+    <title>{{ config('app.name', 'MediConnect') }} — @yield('title', __('app.title_default'))</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', '"Noto Sans Arabic"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
                     },
                     colors: {
                         primary: {
@@ -39,58 +39,78 @@
     @stack('styles')
 </head>
 
-<body class="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased">
+<body class="min-h-screen bg-gradient-to-br from-slate-200/90 via-slate-100 to-primary-100/50 font-sans text-slate-800 antialiased">
 
 
-    <nav class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+    <nav class="sticky top-0 z-50 border-b border-slate-300/40 bg-white/85 shadow-sm backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
+            <div class="flex h-16 items-center justify-between gap-3">
                 <a href="{{ route('home') }}" class="flex items-center gap-2.5">
                     <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-600 text-white shadow-sm">
                         <i class="fas fa-heartbeat text-lg"></i>
                     </span>
-                    <span class="text-xl font-bold tracking-tight text-primary-700">MediConnect</span>
+                    <span class="text-xl font-bold tracking-tight text-primary-800">{{ __('app.name') }}</span>
                 </a>
 
-                <div class="flex items-center gap-4 md:gap-6">
-                    <a href="{{ route('doctors.search') }}" class="text-sm font-medium text-slate-600 hover:text-primary-700 transition">
-                        <i class="fas fa-search mr-1 text-primary-600/80"></i> Médecins
+                <div class="flex flex-shrink-0 items-center gap-2 sm:gap-4 md:gap-5">
+                    <div class="inline-flex items-center rounded-lg border border-slate-200/90 bg-slate-100/80 p-0.5 shadow-inner" title="{{ __('nav.language') }}">
+                        <form method="POST" action="{{ route('locale.switch', 'fr') }}" class="inline">
+                            @csrf
+                            <button type="submit" lang="fr"
+                                class="rounded-md px-2.5 py-1 text-xs font-semibold transition {{ app()->getLocale() === 'fr' ? 'bg-white text-primary-700 shadow-sm' : 'text-slate-500 hover:text-slate-800' }}">
+                                FR
+                            </button>
+                        </form>
+                        <form method="POST" action="{{ route('locale.switch', 'ar') }}" class="inline">
+                            @csrf
+                            <button type="submit" lang="ar"
+                                class="rounded-md px-2.5 py-1 text-xs font-semibold transition {{ app()->getLocale() === 'ar' ? 'bg-white text-primary-700 shadow-sm' : 'text-slate-500 hover:text-slate-800' }}">
+                                عربي
+                            </button>
+                        </form>
+                    </div>
+
+                    <a href="{{ route('doctors.search') }}" class="hidden text-sm font-medium text-slate-600 hover:text-primary-700 transition sm:inline">
+                        <i class="fas fa-search me-1 text-primary-600/80"></i>{{ __('nav.doctors') }}
+                    </a>
+                    <a href="{{ route('doctors.search') }}" class="inline text-slate-600 sm:hidden" title="{{ __('nav.doctors') }}">
+                        <i class="fas fa-search text-lg"></i>
                     </a>
 
                     @auth
                         @if(auth()->user()->isPatient())
-                            <a href="{{ route('patient.dashboard') }}" class="text-sm font-medium text-slate-600 hover:text-primary-700 transition">Dashboard</a>
-                            <a href="{{ route('patient.appointments') }}" class="text-sm font-medium text-slate-600 hover:text-primary-700 transition">Mes RDV</a>
+                            <a href="{{ route('patient.dashboard') }}" class="hidden text-sm font-medium text-slate-600 hover:text-primary-700 transition md:inline">{{ __('nav.dashboard') }}</a>
+                            <a href="{{ route('patient.appointments') }}" class="hidden text-sm font-medium text-slate-600 hover:text-primary-700 transition lg:inline">{{ __('nav.my_appointments') }}</a>
                         @elseif(auth()->user()->isDoctor())
-                            <a href="{{ route('doctor.dashboard') }}" class="text-sm font-medium text-slate-600 hover:text-primary-700 transition">Dashboard</a>
+                            <a href="{{ route('doctor.dashboard') }}" class="hidden text-sm font-medium text-slate-600 hover:text-primary-700 transition md:inline">{{ __('nav.dashboard') }}</a>
                             <a href="{{ route('doctor.appointments') }}"
-                                class="text-sm font-medium text-slate-600 hover:text-primary-700 transition">Rendez-vous</a>
+                                class="hidden text-sm font-medium text-slate-600 hover:text-primary-700 transition lg:inline">{{ __('nav.appointments') }}</a>
                         @elseif(auth()->user()->isAdmin())
-                            <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium text-slate-600 hover:text-primary-700 transition">Admin</a>
+                            <a href="{{ route('admin.dashboard') }}" class="hidden text-sm font-medium text-slate-600 hover:text-primary-700 transition md:inline">{{ __('nav.admin') }}</a>
                         @endif
 
                         <a href="{{ route('messages.index') }}" id="nav-messages-link"
-                           class="relative inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 hover:text-primary-700"
-                           title="Messages">
+                           class="relative inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100/80 hover:text-primary-700"
+                           title="{{ __('nav.messages') }}">
                             <i class="fas fa-envelope text-lg"></i>
-                            <span id="nav-msg-badge" class="absolute right-1 top-1 hidden min-h-[1.125rem] min-w-[1.125rem] rounded-full bg-primary-600 px-1 text-center text-[0.65rem] font-bold leading-tight text-white">0</span>
+                            <span id="nav-msg-badge" class="absolute end-1 top-1 hidden min-h-[1.125rem] min-w-[1.125rem] rounded-full bg-primary-600 px-1 text-center text-[0.65rem] font-bold leading-tight text-white">0</span>
                         </a>
 
-                        <div class="flex items-center gap-3 pl-1 border-l border-slate-200">
-                            <span class="hidden sm:inline text-sm font-medium text-slate-700 max-w-[10rem] truncate">{{ auth()->user()->name }}</span>
+                        <div class="flex items-center gap-2 border-s border-slate-200 ps-3 sm:gap-3">
+                            <span class="hidden max-w-[10rem] truncate text-sm font-medium text-slate-700 sm:inline">{{ auth()->user()->name }}</span>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
                                     class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900">
-                                    <i class="fas fa-sign-out-alt text-slate-500"></i> Déconnexion
+                                    <i class="fas fa-sign-out-alt text-slate-500"></i> {{ __('nav.logout') }}
                                 </button>
                             </form>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm font-medium text-slate-600 hover:text-primary-700 transition">Connexion</a>
+                        <a href="{{ route('login') }}" class="text-sm font-medium text-slate-600 hover:text-primary-700 transition">{{ __('nav.login') }}</a>
                         <a href="{{ route('register') }}"
                             class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                            S'inscrire
+                            {{ __('nav.register') }}
                         </a>
                     @endauth
                 </div>
@@ -100,29 +120,29 @@
 
 
     @if(session('success'))
-        <div class="bg-emerald-50 border-l-4 border-emerald-400 p-4 mx-4 mt-4 rounded" x-data
+        <div class="mx-4 mt-4 rounded {{ app()->getLocale() === 'ar' ? 'border-r-4' : 'border-l-4' }} border-emerald-400 bg-emerald-50/95 p-4 shadow-sm" x-data
             x-init="setTimeout(() => $el.remove(), 4000)">
-            <p class="text-emerald-800"><i class="fas fa-check-circle mr-2"></i>{{ session('success') }}</p>
+            <p class="text-emerald-900"><i class="fas fa-check-circle me-2"></i>{{ session('success') }}</p>
         </div>
     @endif
 
     @if($errors->any())
-        <div class="bg-red-50 border-l-4 border-red-400 p-4 mx-4 mt-4 rounded">
+        <div class="mx-4 mt-4 rounded {{ app()->getLocale() === 'ar' ? 'border-r-4' : 'border-l-4' }} border-red-400 bg-red-50/95 p-4 shadow-sm">
             @foreach($errors->all() as $error)
-                <p class="text-red-700 text-sm"><i class="fas fa-exclamation-circle mr-2"></i>{{ $error }}</p>
+                <p class="text-sm text-red-800"><i class="fas fa-exclamation-circle me-2"></i>{{ $error }}</p>
             @endforeach
         </div>
     @endif
 
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         @yield('content')
     </main>
 
 
-    <footer class="mt-16 border-t border-slate-200 bg-white py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-slate-500">
-            <p>&copy; {{ date('Y') }} MediConnect — Téléconsultation médicale</p>
+    <footer class="mt-16 border-t border-slate-300/40 bg-slate-900/[0.03] py-8 backdrop-blur-sm">
+        <div class="mx-auto max-w-7xl px-4 text-center text-sm text-slate-600">
+            <p>&copy; {{ date('Y') }} {{ __('app.name') }} — {{ __('footer.copyright') }}</p>
         </div>
     </footer>
 

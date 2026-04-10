@@ -6,7 +6,12 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\LocaleController;
 
+
+Route::post('/locale/{locale}', [LocaleController::class, 'switch'])
+    ->name('locale.switch')
+    ->where('locale', 'fr|ar');
 
 Route::get('/', function () {
     return view('welcome');
