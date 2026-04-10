@@ -1,0 +1,143 @@
+<?php
+
+return [
+    'language' => [
+        'fr' => 'Français',
+        'ar' => 'العربية',
+    ],
+
+    'meta' => [
+        'default_title' => 'Plateforme de téléconsultation',
+    ],
+
+    'nav' => [
+        'doctors' => 'Médecins',
+        'dashboard' => 'Tableau de bord',
+        'my_appointments' => 'Mes rendez-vous',
+        'appointments' => 'Rendez-vous',
+        'admin' => 'Administration',
+        'messages' => 'Messages',
+        'logout' => 'Déconnexion',
+        'login' => 'Connexion',
+        'register' => 'S’inscrire',
+    ],
+
+    'footer' => [
+        'tagline' => 'Téléconsultation médicale',
+    ],
+
+    'welcome' => [
+        'title_prefix' => 'La santé, à portée de',
+        'title_highlight' => 'clic',
+        'hero_line1' => 'Consultez un médecin qualifié en ligne',
+        'punct_comma' => ',',
+        'hero_line2' => 'prenez des rendez-vous',
+        'hero_and' => 'et',
+        'hero_line3' => 'recevez vos ordonnances depuis chez vous',
+        'cta_find' => 'Trouver un médecin',
+        'cta_account' => 'Créer un compte',
+        'card_find_title' => 'Trouvez votre médecin',
+        'card_find_desc' => 'Recherchez par spécialité et ville parmi nos médecins partenaires.',
+        'card_find_go' => 'Rechercher',
+        'card_book_title' => 'Prenez rendez-vous',
+        'card_book_desc' => 'Réservez en quelques clics selon les disponibilités du médecin.',
+        'card_rx_title' => 'Recevez votre ordonnance',
+        'card_rx_desc' => 'Consultez votre diagnostic et ordonnance en ligne à tout moment.',
+        'doctor_banner_title' => 'Vous êtes médecin ?',
+        'doctor_banner_text' => 'Rejoignez MediConnect et développez votre patientèle en ligne.',
+        'doctor_banner_cta' => 'Créer mon espace médecin',
+    ],
+
+    'register' => [
+        'title' => 'Créer un compte',
+        'subtitle' => 'Rejoignez MediConnect',
+        'i_am' => 'Je suis',
+        'patient' => 'Patient',
+        'doctor' => 'Médecin',
+        'full_name' => 'Nom complet',
+        'email' => 'E-mail',
+        'password' => 'Mot de passe',
+        'confirm' => 'Confirmer',
+        'phone' => 'Téléphone',
+        'address' => 'Adresse',
+        'city' => 'Ville',
+        'bio' => 'Biographie',
+        'doctor_note' => 'Votre compte devra être validé par un administrateur avant d’être visible.',
+        'submit' => 'Créer mon compte',
+        'already' => 'Déjà inscrit ?',
+        'login_link' => 'Se connecter',
+    ],
+
+    'auth' => [
+        'login_title' => 'Bienvenue sur MediConnect',
+        'login_subtitle' => 'Connectez-vous à votre compte',
+        'email' => 'Adresse e-mail',
+        'password' => 'Mot de passe',
+        'remember' => 'Se souvenir de moi',
+        'forgot' => 'Mot de passe oublié ?',
+        'submit_login' => 'Se connecter',
+        'no_account' => 'Pas encore de compte ?',
+        'signup_link' => 'S’inscrire',
+    ],
+
+    'patient_dashboard' => [
+        'title' => 'Mon tableau de bord',
+        'greeting' => 'Bonjour, :name',
+        'subtitle' => 'Voici un aperçu de votre espace santé',
+        'cta_book' => 'Prendre un rendez-vous',
+        'upcoming' => 'Prochains rendez-vous',
+        'no_upcoming' => 'Aucun rendez-vous à venir',
+        'find_doctor' => 'Chercher un médecin',
+        'see_all_apt' => 'Voir tous les rendez-vous',
+        'history' => 'Historique récent',
+        'no_history' => 'Aucune consultation pour l’instant',
+        'see_full_history' => 'Voir l’historique complet',
+        'done' => 'Terminé',
+    ],
+
+    'doctor_dashboard' => [
+        'title' => 'Tableau de bord médecin',
+        'greeting' => 'Bonjour, Dr. :name',
+        'pending_validation' => 'Votre compte est en attente de validation par l’administrateur.',
+        'edit_profile' => 'Modifier le profil',
+        'stat_total' => 'Total RDV',
+        'stat_pending' => 'En attente',
+        'stat_consultations' => 'Consultations',
+        'pending_requests' => 'Demandes en attente (:count)',
+        'no_pending' => 'Aucune demande en attente',
+        'accept' => 'Accepter',
+        'refuse' => 'Refuser',
+        'today_title' => 'Rendez-vous du jour',
+        'start_consultation' => 'Démarrer la consultation',
+    ],
+
+    'admin_dashboard' => [
+        'title' => 'Tableau de bord administrateur',
+        'stat_users' => 'Utilisateurs',
+        'stat_patients' => 'Patients',
+        'stat_doctors_ok' => 'Médecins validés',
+        'stat_pending' => 'En attente',
+        'validate_title' => 'Médecins à valider',
+        'see_all' => 'Voir tout',
+        'no_pending_doctors' => 'Aucun médecin en attente',
+        'validate' => 'Valider',
+        'new_users' => 'Nouveaux inscrits',
+        'shortcut_doctors' => 'Gérer les médecins',
+        'shortcut_users' => 'Gérer les utilisateurs',
+        'shortcut_stats' => 'Statistiques',
+        'shortcut_specs' => 'Spécialités',
+    ],
+
+    'appointment_status' => [
+        'pending' => 'En attente',
+        'accepted' => 'Accepté',
+        'refused' => 'Refusé',
+        'completed' => 'Terminé',
+    ],
+
+    'roles' => [
+        'patient' => 'Patient',
+        'doctor' => 'Médecin',
+        'admin' => 'Administrateur',
+    ],
+];

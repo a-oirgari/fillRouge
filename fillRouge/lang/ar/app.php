@@ -1,0 +1,143 @@
+<?php
+
+return [
+    'language' => [
+        'fr' => 'Français',
+        'ar' => 'العربية',
+    ],
+
+    'meta' => [
+        'default_title' => 'منصة الاستشارة الطبية عن بُعد',
+    ],
+
+    'nav' => [
+        'doctors' => 'الأطباء',
+        'dashboard' => 'لوحة التحكم',
+        'my_appointments' => 'مواعيدي',
+        'appointments' => 'المواعيد',
+        'admin' => 'الإدارة',
+        'messages' => 'الرسائل',
+        'logout' => 'تسجيل الخروج',
+        'login' => 'تسجيل الدخول',
+        'register' => 'إنشاء حساب',
+    ],
+
+    'footer' => [
+        'tagline' => 'استشارة طبية عن بُعد',
+    ],
+
+    'welcome' => [
+        'title_prefix' => 'صحتك، بين يديك بنقرة',
+        'title_highlight' => 'واحدة',
+        'hero_line1' => 'استشر طبيباً مؤهلاً عبر الإنترنت',
+        'punct_comma' => '،',
+        'hero_line2' => 'احجز مواعيدك',
+        'hero_and' => 'و',
+        'hero_line3' => 'استلم وصفتك الطبية من منزلك',
+        'cta_find' => 'البحث عن طبيب',
+        'cta_account' => 'إنشاء حساب',
+        'card_find_title' => 'اعثر على طبيبك',
+        'card_find_desc' => 'ابحث حسب التخصص والمدينة بين أطبائنا الشركاء.',
+        'card_find_go' => 'بحث',
+        'card_book_title' => 'احجز موعداً',
+        'card_book_desc' => 'احجز بسهولة وفق أوقات توفر الطبيب.',
+        'card_rx_title' => 'استلم وصفتك',
+        'card_rx_desc' => 'اطّلع على التشخيص والوصفة في أي وقت.',
+        'doctor_banner_title' => 'هل أنت طبيب؟',
+        'doctor_banner_text' => 'انضم إلى MediConnect ووسّع قاعدة مرضاك عبر الإنترنت.',
+        'doctor_banner_cta' => 'إنشاء مساحة الطبيب',
+    ],
+
+    'register' => [
+        'title' => 'إنشاء حساب',
+        'subtitle' => 'انضم إلى MediConnect',
+        'i_am' => 'أنا',
+        'patient' => 'مريض',
+        'doctor' => 'طبيب',
+        'full_name' => 'الاسم الكامل',
+        'email' => 'البريد الإلكتروني',
+        'password' => 'كلمة المرور',
+        'confirm' => 'تأكيد',
+        'phone' => 'الهاتف',
+        'address' => 'العنوان',
+        'city' => 'المدينة',
+        'bio' => 'نبذة مهنية',
+        'doctor_note' => 'يجب اعتماد حسابك من قبل المسؤول قبل الظهور للمرضى.',
+        'submit' => 'إنشاء الحساب',
+        'already' => 'لديك حساب بالفعل؟',
+        'login_link' => 'تسجيل الدخول',
+    ],
+
+    'auth' => [
+        'login_title' => 'مرحباً بك في MediConnect',
+        'login_subtitle' => 'سجّل الدخول إلى حسابك',
+        'email' => 'البريد الإلكتروني',
+        'password' => 'كلمة المرور',
+        'remember' => 'تذكرني',
+        'forgot' => 'نسيت كلمة المرور؟',
+        'submit_login' => 'تسجيل الدخول',
+        'no_account' => 'ليس لديك حساب؟',
+        'signup_link' => 'إنشاء حساب',
+    ],
+
+    'patient_dashboard' => [
+        'title' => 'لوحة التحكم',
+        'greeting' => 'مرحباً، :name',
+        'subtitle' => 'نظرة عامة على مساحتك الصحية',
+        'cta_book' => 'حجز موعد',
+        'upcoming' => 'المواعيد القادمة',
+        'no_upcoming' => 'لا توجد مواعيد قادمة',
+        'find_doctor' => 'البحث عن طبيب',
+        'see_all_apt' => 'عرض كل المواعيد',
+        'history' => 'سجل حديث',
+        'no_history' => 'لا توجد استشارات بعد',
+        'see_full_history' => 'عرض السجل الكامل',
+        'done' => 'مكتمل',
+    ],
+
+    'doctor_dashboard' => [
+        'title' => 'لوحة تحكم الطبيب',
+        'greeting' => 'مرحباً، د. :name',
+        'pending_validation' => 'حسابك بانتظار اعتماد المسؤول.',
+        'edit_profile' => 'تعديل الملف',
+        'stat_total' => 'إجمالي المواعيد',
+        'stat_pending' => 'قيد الانتظار',
+        'stat_consultations' => 'الاستشارات',
+        'pending_requests' => 'طلبات قيد الانتظار (:count)',
+        'no_pending' => 'لا توجد طلبات',
+        'accept' => 'قبول',
+        'refuse' => 'رفض',
+        'today_title' => 'مواعيد اليوم',
+        'start_consultation' => 'بدء الاستشارة',
+    ],
+
+    'admin_dashboard' => [
+        'title' => 'لوحة الإدارة',
+        'stat_users' => 'المستخدمون',
+        'stat_patients' => 'المرضى',
+        'stat_doctors_ok' => 'أطباء معتمدون',
+        'stat_pending' => 'قيد الانتظار',
+        'validate_title' => 'أطباء بانتظار الاعتماد',
+        'see_all' => 'عرض الكل',
+        'no_pending_doctors' => 'لا يوجد أطباء بانتظار الاعتماد',
+        'validate' => 'اعتماد',
+        'new_users' => 'مستخدمون جدد',
+        'shortcut_doctors' => 'إدارة الأطباء',
+        'shortcut_users' => 'إدارة المستخدمين',
+        'shortcut_stats' => 'الإحصائيات',
+        'shortcut_specs' => 'التخصصات',
+    ],
+
+    'appointment_status' => [
+        'pending' => 'قيد الانتظار',
+        'accepted' => 'مقبول',
+        'refused' => 'مرفوض',
+        'completed' => 'مكتمل',
+    ],
+
+    'roles' => [
+        'patient' => 'مريض',
+        'doctor' => 'طبيب',
+        'admin' => 'مسؤول',
+    ],
+];
