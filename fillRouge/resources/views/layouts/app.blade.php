@@ -48,7 +48,7 @@
     @stack('styles')
 </head>
 
-<body class="min-h-screen bg-page-gradient font-sans text-slate-800 antialiased {{ app()->getLocale() === 'ar' ? 'font-arabic' : '' }}">
+<body class="min-h-screen bg-page-gradient font-sans text-slate-800 antialiased flex flex-col {{ app()->getLocale() === 'ar' ? 'font-arabic' : '' }}">
 
 
     <nav class="sticky top-0 z-50 border-b border-slate-200/90 bg-white/85 shadow-sm backdrop-blur-md">
@@ -134,12 +134,12 @@
     @endif
 
 
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <main class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-grow">
         @yield('content')
     </main>
 
 
-    <footer class="mt-16 border-t border-slate-200/90 bg-slate-900 py-10 text-slate-300">
+    <footer class="mt-auto border-t border-slate-200/90 bg-slate-900 py-10 text-slate-300">
         <div class="mx-auto max-w-7xl px-4 text-center text-sm">
             <p>&copy; {{ date('Y') }} MediConnect — {{ __('app.footer.tagline') }}</p>
         </div>
