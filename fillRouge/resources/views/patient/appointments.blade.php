@@ -6,7 +6,7 @@
     <div class="flex items-center justify-between">
         <h1 class="text-2xl font-bold text-gray-800">{{ __('app.appointments.title') }}</h1>
         <a href="{{ route('doctors.search') }}"
-           class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-blue-700 transition flex items-center gap-2">
+           class="bg-primary-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-primary-700 transition flex items-center gap-2">
             <i class="fas fa-plus"></i> {{ __('app.appointments.new') }}
         </a>
     </div>
@@ -17,7 +17,7 @@
         <a href="{{ request()->fullUrlWithQuery(['status' => $value === 'all' ? null : $value]) }}"
            class="px-4 py-1.5 rounded-full text-sm font-medium transition
                {{ (request('status') === $value || ($value === 'all' && !request('status')))
-                   ? 'bg-blue-600 text-white'
+                   ? 'bg-primary-600 text-white'
                    : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50' }}">
             {{ $label }}
         </a>
@@ -29,7 +29,7 @@
         <div class="text-center py-16 bg-white rounded-2xl border border-gray-100">
             <i class="fas fa-calendar-xmark text-5xl text-gray-300 mb-4"></i>
             <p class="text-gray-500">{{ __('app.appointments.no_appointments') }}</p>
-            <a href="{{ route('doctors.search') }}" class="text-blue-600 hover:underline text-sm mt-2 inline-block">
+            <a href="{{ route('doctors.search') }}" class="text-primary-600 hover:underline text-sm mt-2 inline-block">
                 {{ __('app.appointments.book_one') }}
             </a>
         </div>
@@ -39,12 +39,12 @@
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div class="flex items-start gap-4">
-                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-user-md text-blue-600 text-lg"></i>
+                        <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-user-md text-primary-600 text-lg"></i>
                         </div>
                         <div>
                             <h3 class="font-semibold text-gray-800">Dr. {{ $apt->doctor->user->name }}</h3>
-                            <p class="text-sm text-blue-600">
+                            <p class="text-sm text-primary-600">
                                 {{ $apt->doctor->specialities->pluck('name')->join(', ') ?: __('app.appointments.generalist') }}
                             </p>
                             <p class="text-sm text-gray-500 mt-1">
@@ -76,14 +76,14 @@
 
                         @if($apt->status === 'completed' && $apt->consultation)
                         <a href="{{ route('patient.history') }}"
-                           class="text-blue-600 text-xs hover:underline flex items-center gap-1">
+                           class="text-primary-600 text-xs hover:underline flex items-center gap-1">
                             <i class="fas fa-file-medical"></i> {{ __('app.appointments.see_diagnostic') }}
                         </a>
                         @endif
 
                         @if(in_array($apt->status, ['accepted', 'pending']))
                         <a href="{{ route('messages.conversation', $apt->doctor->user) }}"
-                           class="text-gray-500 text-xs hover:text-blue-600 flex items-center gap-1">
+                           class="text-gray-500 text-xs hover:text-primary-600 flex items-center gap-1">
                             <i class="fas fa-comment"></i> {{ __('app.appointments.contact_doctor') }}
                         </a>
                         @endif

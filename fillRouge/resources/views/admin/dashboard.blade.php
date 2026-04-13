@@ -12,7 +12,7 @@
 
     @php
         $statCards = [
-            ['label' => __('app.admin_dashboard.stat_users'), 'value' => $stats['total_users'], 'icon' => 'fa-users', 'wrap' => 'bg-blue-100', 'iconColor' => 'text-blue-700'],
+            ['label' => __('app.admin_dashboard.stat_users'), 'value' => $stats['total_users'], 'icon' => 'fa-users', 'wrap' => 'bg-primary-100', 'iconColor' => 'text-primary-700'],
             ['label' => __('app.admin_dashboard.stat_patients'), 'value' => $stats['total_patients'], 'icon' => 'fa-user', 'wrap' => 'bg-violet-100', 'iconColor' => 'text-violet-700'],
             ['label' => __('app.admin_dashboard.stat_doctors_ok'), 'value' => $stats['validated_doctors'], 'icon' => 'fa-user-md', 'wrap' => 'bg-emerald-100', 'iconColor' => 'text-emerald-700'],
             ['label' => __('app.admin_dashboard.stat_pending'), 'value' => $stats['pending_doctors'], 'icon' => 'fa-hourglass-half', 'wrap' => 'bg-amber-100', 'iconColor' => 'text-amber-800'],
@@ -95,7 +95,7 @@
 
     @php
         $shortcuts = [
-            ['route' => 'admin.doctors', 'label' => __('app.admin_dashboard.shortcut_doctors'), 'icon' => 'fa-user-md', 'wrap' => 'bg-blue-100', 'iconColor' => 'text-blue-700'],
+            ['route' => 'admin.doctors', 'label' => __('app.admin_dashboard.shortcut_doctors'), 'icon' => 'fa-user-md', 'wrap' => 'bg-primary-100', 'iconColor' => 'text-primary-700'],
             ['route' => 'admin.users', 'label' => __('app.admin_dashboard.shortcut_users'), 'icon' => 'fa-users', 'wrap' => 'bg-violet-100', 'iconColor' => 'text-violet-700'],
             ['route' => 'admin.statistics', 'label' => __('app.admin_dashboard.shortcut_stats'), 'icon' => 'fa-chart-column', 'wrap' => 'bg-emerald-100', 'iconColor' => 'text-emerald-700'],
             ['route' => 'admin.specialities', 'label' => __('app.admin_dashboard.shortcut_specs'), 'icon' => 'fa-tags', 'wrap' => 'bg-orange-100', 'iconColor' => 'text-orange-700'],

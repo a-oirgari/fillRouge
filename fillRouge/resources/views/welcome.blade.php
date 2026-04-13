@@ -6,7 +6,7 @@
     <!-- Decorative blurred background blobs -->
     <div class="absolute inset-0 z-0 pointer-events-none flex justify-center items-center opacity-60">
         <div class="absolute top-[10%] left-[15%] w-72 h-72 md:w-96 md:h-96 bg-primary-300 rounded-full mix-blend-multiply filter blur-[80px] md:blur-[100px] opacity-70"></div>
-        <div class="absolute top-[20%] right-[15%] w-72 h-72 md:w-96 md:h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-[80px] md:blur-[100px] opacity-70"></div>
+        <div class="absolute top-[20%] right-[15%] w-72 h-72 md:w-96 md:h-96 bg-primary-300 rounded-full mix-blend-multiply filter blur-[80px] md:blur-[100px] opacity-70"></div>
         <div class="absolute bottom-[10%] left-1/3 w-72 h-72 md:w-96 md:h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-[80px] md:blur-[100px] opacity-70"></div>
     </div>
 
@@ -14,18 +14,26 @@
         <h1 class="mb-6 text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl lg:text-7xl drop-shadow-sm">
             {{ __('app.welcome.title_prefix') }} <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">{{ __('app.welcome.title_highlight') }}</span>
         </h1>
-        <p class="mx-auto mb-10 max-w-2xl text-lg md:text-xl leading-relaxed text-slate-700 font-medium">
-            <a href="#section-trouver-medecin"
-               class="text-primary-700 underline decoration-primary-300 decoration-2 underline-offset-4 transition hover:decoration-primary-600 hover:text-primary-900">
-                {{ __('app.welcome.hero_line1') }}</a><span class="text-slate-600">{{ __('app.welcome.punct_comma') }}</span>
-            <a href="#section-rendez-vous"
-               class="text-primary-700 underline decoration-primary-300 decoration-2 underline-offset-4 transition hover:decoration-primary-600 hover:text-primary-900">
-                {{ __('app.welcome.hero_line2') }}</a>
-            <span class="text-slate-600"> {{ __('app.welcome.hero_and') }} </span>
-            <a href="#section-ordonnance"
-               class="text-primary-700 underline decoration-primary-300 decoration-2 underline-offset-4 transition hover:decoration-primary-600 hover:text-primary-900">
-                {{ __('app.welcome.hero_line3') }}</a><span class="text-slate-600">.</span>
-        </p>
+        <div class="mx-auto mb-10 flex max-w-3xl flex-wrap justify-center gap-3 md:gap-5">
+            <a href="#section-trouver-medecin" class="group flex items-center justify-center gap-3 rounded-2xl bg-white/70 backdrop-blur-sm px-5 py-3 shadow-sm ring-1 ring-slate-200/60 transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:ring-primary-300 hover:shadow-lg">
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600 transition-colors group-hover:bg-primary-600 group-hover:text-white">
+                    <i class="fas fa-user-md"></i>
+                </span>
+                <span class="font-medium text-slate-700 transition-colors group-hover:text-primary-800">{{ __('app.welcome.hero_line1') }}</span>
+            </a>
+            <a href="#section-rendez-vous" class="group flex items-center justify-center gap-3 rounded-2xl bg-white/70 backdrop-blur-sm px-5 py-3 shadow-sm ring-1 ring-slate-200/60 transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:ring-primary-300 hover:shadow-lg">
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600 transition-colors group-hover:bg-primary-600 group-hover:text-white">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+                <span class="font-medium text-slate-700 transition-colors group-hover:text-primary-800">{{ __('app.welcome.hero_line2') }}</span>
+            </a>
+            <a href="#section-ordonnance" class="group flex items-center justify-center gap-3 rounded-2xl bg-white/70 backdrop-blur-sm px-5 py-3 shadow-sm ring-1 ring-slate-200/60 transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:ring-primary-300 hover:shadow-lg">
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600 transition-colors group-hover:bg-primary-600 group-hover:text-white">
+                    <i class="fas fa-file-prescription"></i>
+                </span>
+                <span class="font-medium text-slate-700 transition-colors group-hover:text-primary-800">{{ __('app.welcome.hero_line3') }}</span>
+            </a>
+        </div>
         <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
             <a href="{{ route('doctors.search') }}"
                class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-primary-600 to-primary-700 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-primary-600/30 transition-all hover:scale-105 hover:from-primary-700 hover:to-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
@@ -41,30 +49,29 @@
 
 <div class="grid scroll-mt-24 grid-cols-1 gap-6 py-12 md:grid-cols-3">
     <a id="section-trouver-medecin" href="{{ route('doctors.search') }}"
-       class="group block rounded-2xl border border-slate-200/90 bg-gradient-to-b from-white to-slate-50/90 p-6 text-center shadow-md transition hover:border-primary-200 hover:shadow-lg">
-        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-blue-700 transition group-hover:bg-blue-50">
-            <i class="fas fa-magnifying-glass text-2xl"></i>
+       class="group block rounded-3xl border border-slate-200/90 bg-white p-8 text-center shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-primary-300 hover:shadow-xl hover:shadow-primary-500/10">
+        <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-primary-50 text-primary-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-primary-500/30">
+            <i class="fas fa-magnifying-glass text-3xl"></i>
         </div>
-        <h3 class="mb-2 text-lg font-semibold text-slate-900 group-hover:text-primary-800">{{ __('app.welcome.card_find_title') }}</h3>
+        <h3 class="mb-3 text-xl font-bold text-slate-900 transition-colors group-hover:text-primary-700">{{ __('app.welcome.card_find_title') }}</h3>
         <p class="text-sm leading-relaxed text-slate-600">{{ __('app.welcome.card_find_desc') }}</p>
-        <span class="mt-4 inline-block text-sm font-semibold text-primary-600 opacity-0 transition group-hover:opacity-100">{{ __('app.welcome.card_find_go') }} →</span>
     </a>
 
     <div id="section-rendez-vous"
-         class="rounded-2xl border border-slate-200/90 bg-gradient-to-b from-emerald-50/80 to-white p-6 text-center shadow-md transition hover:border-emerald-200 hover:shadow-lg">
-        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
-            <i class="fas fa-calendar-check text-2xl"></i>
+         class="group rounded-3xl border border-slate-200/90 bg-white p-8 text-center shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/10">
+        <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-emerald-500/30">
+            <i class="fas fa-calendar-check text-3xl"></i>
         </div>
-        <h3 class="mb-2 text-lg font-semibold text-slate-900">{{ __('app.welcome.card_book_title') }}</h3>
+        <h3 class="mb-3 text-xl font-bold text-slate-900 transition-colors group-hover:text-emerald-700">{{ __('app.welcome.card_book_title') }}</h3>
         <p class="text-sm leading-relaxed text-slate-600">{{ __('app.welcome.card_book_desc') }}</p>
     </div>
 
     <div id="section-ordonnance"
-         class="rounded-2xl border border-slate-200/90 bg-gradient-to-b from-violet-50/80 to-white p-6 text-center shadow-md transition hover:border-violet-200 hover:shadow-lg">
-        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-100 text-violet-700">
-            <i class="fas fa-file-medical text-2xl"></i>
+         class="group rounded-3xl border border-slate-200/90 bg-white p-8 text-center shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-violet-300 hover:shadow-xl hover:shadow-violet-500/10">
+        <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-violet-50 text-violet-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-violet-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-violet-500/30">
+            <i class="fas fa-file-medical text-3xl"></i>
         </div>
-        <h3 class="mb-2 text-lg font-semibold text-slate-900">{{ __('app.welcome.card_rx_title') }}</h3>
+        <h3 class="mb-3 text-xl font-bold text-slate-900 transition-colors group-hover:text-violet-700">{{ __('app.welcome.card_rx_title') }}</h3>
         <p class="text-sm leading-relaxed text-slate-600">{{ __('app.welcome.card_rx_desc') }}</p>
     </div>
 </div>

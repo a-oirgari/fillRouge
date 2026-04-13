@@ -12,11 +12,11 @@
                 <label class="block text-xs font-medium text-gray-500 mb-1">Rechercher</label>
                 <input type="text" name="search" value="{{ request('search') }}"
                        placeholder="Nom ou email..."
-                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none">
             </div>
             <div>
                 <label class="block text-xs font-medium text-gray-500 mb-1">Rôle</label>
-                <select name="role" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                <select name="role" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none">
                     <option value="">Tous</option>
                     <option value="patient"  {{ request('role') === 'patient'  ? 'selected' : '' }}>Patient</option>
                     <option value="doctor"   {{ request('role') === 'doctor'   ? 'selected' : '' }}>Médecin</option>
@@ -24,7 +24,7 @@
                 </select>
             </div>
             <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                    class="bg-primary-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700 transition">
                 <i class="fas fa-search mr-1"></i> Filtrer
             </button>
             @if(request('search') || request('role'))
@@ -53,8 +53,8 @@
                 <tr class="hover:bg-gray-50">
                     <td class="px-5 py-4">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                                <span class="text-blue-600 text-xs font-bold">
+                            <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-primary-600 text-xs font-bold">
                                     {{ strtoupper(substr($user->name, 0, 1)) }}
                                 </span>
                             </div>
@@ -65,7 +65,7 @@
                     <td class="px-5 py-4">
                         @php
                             $roleConfig = [
-                                'patient' => 'bg-blue-100 text-blue-700',
+                                'patient' => 'bg-primary-100 text-primary-700',
                                 'doctor'  => 'bg-purple-100 text-purple-700',
                                 'admin'   => 'bg-red-100 text-red-700',
                             ];

@@ -10,7 +10,7 @@
         <form method="GET" action="{{ route('doctors.search') }}" class="flex flex-wrap gap-4 items-end">
             <div class="flex-1 min-w-[200px]">
                 <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.search.speciality') }}</label>
-                <select name="speciality_id" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+                <select name="speciality_id" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none">
                     <option value="">{{ __('app.search.all_specialities') }}</option>
                     @foreach($specialities as $spec)
                         <option value="{{ $spec->id }}" {{ request('speciality_id') == $spec->id ? 'selected' : '' }}>
@@ -24,7 +24,7 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.search.city') }}</label>
                 <input type="text" name="city" value="{{ request('city') }}" list="cities-list"
                        placeholder="{{ __('app.search.city_placeholder') }}"
-                       class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+                       class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none">
                 <datalist id="cities-list">
                     @if(isset($cities))
                         @foreach($cities as $c)
@@ -35,7 +35,7 @@
             </div>
 
             <button type="submit"
-                    class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                    class="bg-primary-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-primary-700 transition flex items-center gap-2">
                 <i class="fas fa-search"></i> {{ __('app.search.search_btn') }}
             </button>
         </form>
@@ -55,16 +55,16 @@
                 @foreach($doctors as $doctor)
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition">
                     <div class="flex items-start gap-3 mb-4">
-                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
                             @if($doctor->photo)
                                 <img src="{{ asset('storage/'.$doctor->photo) }}" class="w-12 h-12 rounded-full object-cover">
                             @else
-                                <i class="fas fa-user-md text-blue-600 text-xl"></i>
+                                <i class="fas fa-user-md text-primary-600 text-xl"></i>
                             @endif
                         </div>
                         <div>
                             <h3 class="font-semibold text-gray-800">Dr. {{ $doctor->user->name }}</h3>
-                            <p class="text-sm text-blue-600">
+                            <p class="text-sm text-primary-600">
                                 {{ $doctor->specialities->map(function($s) { return __('app.specialities.' . $s->name); })->join(', ') ?: __('app.search.generalist') }}
                             </p>
                         </div>
@@ -81,13 +81,13 @@
 
                     <div class="flex gap-2">
                         <a href="{{ route('doctors.show', $doctor) }}"
-                           class="flex-1 text-center border border-blue-600 text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 transition">
+                           class="flex-1 text-center border border-primary-600 text-primary-600 px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-50 transition">
                             {{ __('app.search.view_profile') }}
                         </a>
                         @auth
                             @if(auth()->user()->isPatient())
                             <a href="{{ route('doctors.show', $doctor) }}#book"
-                               class="flex-1 text-center bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                               class="flex-1 text-center bg-primary-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition">
                                 {{ __('app.search.book_appointment') }}
                             </a>
                             @endif

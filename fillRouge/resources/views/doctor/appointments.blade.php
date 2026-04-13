@@ -13,7 +13,7 @@
         <a href="{{ request()->fullUrlWithQuery(['status' => $value === 'all' ? null : $value]) }}"
            class="px-4 py-1.5 rounded-full text-sm font-medium transition
                {{ (request('status') === $value || ($value === 'all' && !request('status')))
-                   ? 'bg-blue-600 text-white'
+                   ? 'bg-primary-600 text-white'
                    : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50' }}">
             {{ $label }}
         </a>
@@ -83,7 +83,7 @@
 
                             @if($apt->status === 'accepted')
                             <a href="{{ route('doctor.consultation.show', $apt) }}"
-                               class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-blue-700 transition">
+                               class="bg-primary-600 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-primary-700 transition">
                                 <i class="fas fa-stethoscope mr-1"></i>Consulter
                             </a>
                             @endif

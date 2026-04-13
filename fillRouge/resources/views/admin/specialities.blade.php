@@ -14,9 +14,9 @@
             @csrf
             <input type="text" name="name" value="{{ old('name') }}"
                    placeholder="Ex: Cardiologie, Dermatologie..."
-                   class="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                   class="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 outline-none">
             <button type="submit"
-                    class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                    class="bg-primary-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-700 transition">
                 <i class="fas fa-plus mr-1"></i> Ajouter
             </button>
         </form>
@@ -39,7 +39,7 @@
                     <td class="px-5 py-3 text-sm text-gray-400">{{ $spec->id }}</td>
                     <td class="px-5 py-3 font-medium text-gray-800">{{ $spec->name }}</td>
                     <td class="px-5 py-3">
-                        <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs font-medium">
+                        <span class="bg-primary-100 text-primary-700 px-2 py-0.5 rounded-full text-xs font-medium">
                             {{ $spec->doctors_count }} médecin(s)
                         </span>
                     </td>

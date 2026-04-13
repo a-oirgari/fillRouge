@@ -44,9 +44,9 @@
                     @if($apt->consultation)
                     <div>
                         <p class="text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">
-                            <i class="fas fa-stethoscope mr-1 text-blue-400"></i>{{ __('app.history.diagnostic') }}
+                            <i class="fas fa-stethoscope mr-1 text-primary-400"></i>{{ __('app.history.diagnostic') }}
                         </p>
-                        <p class="text-sm text-gray-700 bg-blue-50 rounded-xl p-3">
+                        <p class="text-sm text-gray-700 bg-primary-50 rounded-xl p-3">
                             {{ $apt->consultation->diagnostic }}
                         </p>
                     </div>

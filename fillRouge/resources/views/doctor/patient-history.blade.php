@@ -4,7 +4,7 @@
 @section('content')
 <div class="space-y-6">
     <h1 class="text-2xl font-bold text-gray-800">
-        <i class="fas fa-users text-blue-500 mr-2"></i>Historique patients
+        <i class="fas fa-users text-primary-500 mr-2"></i>Historique patients
     </h1>
 
     @if($patients->isEmpty())
@@ -18,8 +18,8 @@
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="flex items-center justify-between p-5 border-b border-gray-50">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <i class="fas fa-user text-blue-600"></i>
+                        <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-primary-600"></i>
                         </div>
                         <div>
                             <p class="font-semibold text-gray-800">{{ $apt->patient->user->name }}</p>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <a href="{{ route('messages.conversation', $apt->patient->user) }}"
-                       class="text-blue-600 text-sm hover:underline flex items-center gap-1">
+                       class="text-primary-600 text-sm hover:underline flex items-center gap-1">
                         <i class="fas fa-comment"></i> Contacter
                     </a>
                 </div>
@@ -45,7 +45,7 @@
                     @if($apt->consultation)
                     <div>
                         <p class="text-xs text-gray-400 uppercase tracking-wide mb-1">Diagnostic posé</p>
-                        <p class="text-sm text-gray-700 bg-blue-50 rounded-xl p-3">
+                        <p class="text-sm text-gray-700 bg-primary-50 rounded-xl p-3">
                             {{ $apt->consultation->diagnostic }}
                         </p>
                     </div>

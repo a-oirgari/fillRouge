@@ -19,7 +19,7 @@
             @php $count = $stats['appointments_by_month'][$i] ?? 0; @endphp
             <div class="flex-1 flex flex-col items-center gap-1">
                 <span class="text-xs text-gray-500">{{ $count ?: '' }}</span>
-                <div class="w-full bg-blue-500 rounded-t-md transition-all"
+                <div class="w-full bg-primary-500 rounded-t-md transition-all"
                      style="height: {{ $maxVal > 0 ? round(($count / $maxVal) * 120) : 4 }}px; min-height: 4px;"></div>
                 <span class="text-xs text-gray-400">{{ $months[$i - 1] }}</span>
             </div>
@@ -45,7 +45,7 @@
                         <p class="text-sm font-medium text-gray-800">Dr. {{ $doctor->user->name }}</p>
                         <div class="w-full bg-gray-100 rounded-full h-1.5 mt-1">
                             @php $topCount = $stats['top_doctors']->first()->appointments_count ?: 1; @endphp
-                            <div class="bg-blue-500 h-1.5 rounded-full"
+                            <div class="bg-primary-500 h-1.5 rounded-full"
                                  style="width: {{ round(($doctor->appointments_count / $topCount) * 100) }}%"></div>
                         </div>
                     </div>

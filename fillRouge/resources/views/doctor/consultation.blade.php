@@ -41,7 +41,7 @@
     @if($appointment->status !== 'completed')
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <h2 class="text-lg font-semibold text-gray-800 mb-4">
-            <i class="fas fa-stethoscope text-blue-500 mr-2"></i>Diagnostic et ordonnance
+            <i class="fas fa-stethoscope text-primary-500 mr-2"></i>Diagnostic et ordonnance
         </h2>
         <form method="POST" action="{{ route('doctor.consultation.save', $appointment) }}" class="space-y-4">
             @csrf
@@ -49,17 +49,17 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">Diagnostic *</label>
                 <textarea name="diagnostic" rows="5" required
                           placeholder="Saisir le diagnostic médical..."
-                          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none resize-none">{{ $appointment->consultation?->diagnostic }}</textarea>
+                          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-500 outline-none resize-none">{{ $appointment->consultation?->diagnostic }}</textarea>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Ordonnance (optionnel)</label>
                 <textarea name="prescription" rows="4"
                           placeholder="Médicaments prescrits, dosage, durée..."
-                          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none resize-none">{{ $appointment->consultation?->prescription?->content }}</textarea>
+                          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-500 outline-none resize-none">{{ $appointment->consultation?->prescription?->content }}</textarea>
             </div>
             <div class="flex gap-3">
                 <button type="submit"
-                        class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition">
+                        class="bg-primary-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-primary-700 transition">
                     <i class="fas fa-save mr-2"></i>Enregistrer et terminer
                 </button>
                 <a href="{{ route('messages.conversation', $appointment->patient->user) }}"

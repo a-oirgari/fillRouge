@@ -6,7 +6,7 @@
     <div class="flex items-center justify-between">
         <h1 class="text-2xl font-bold text-gray-800">Gestion des médecins</h1>
         <div class="flex gap-2">
-            <a href="{{ route('admin.doctors') }}" class="px-4 py-2 rounded-lg text-sm {{ !request('validated') ? 'bg-blue-600 text-white' : 'bg-white border border-gray-300 text-gray-700' }}">Tous</a>
+            <a href="{{ route('admin.doctors') }}" class="px-4 py-2 rounded-lg text-sm {{ !request('validated') ? 'bg-primary-600 text-white' : 'bg-white border border-gray-300 text-gray-700' }}">Tous</a>
             <a href="{{ route('admin.doctors', ['validated' => 1]) }}" class="px-4 py-2 rounded-lg text-sm {{ request('validated') == '1' ? 'bg-green-600 text-white' : 'bg-white border border-gray-300 text-gray-700' }}">Validés</a>
             <a href="{{ route('admin.doctors', ['validated' => 0]) }}" class="px-4 py-2 rounded-lg text-sm {{ request('validated') == '0' ? 'bg-amber-500 text-white' : 'bg-white border border-gray-300 text-gray-700' }}">En attente</a>
         </div>
