@@ -16,7 +16,7 @@
             <div class="flex-1">
                 <h1 class="text-2xl font-bold text-gray-800">Dr. {{ $doctor->user->name }}</h1>
                 <p class="text-blue-600 font-medium mt-1">
-                    {{ $doctor->specialities->pluck('name')->join(' · ') ?: 'Médecin généraliste' }}
+                    {{ $doctor->specialities->pluck('name')->join(' · ') ?: __('app.profile.generalist') }}
                 </p>
                 @if($doctor->city)
                 <p class="text-gray-500 mt-1"><i class="fas fa-map-marker-alt mr-1"></i>{{ $doctor->city }}</p>
@@ -35,7 +35,7 @@
     @if($doctor->availabilities->isNotEmpty())
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <h2 class="text-lg font-semibold text-gray-800 mb-4">
-            <i class="fas fa-clock text-green-500 mr-2"></i>Disponibilités
+            <i class="fas fa-clock text-green-500 mr-2"></i>{{ __('app.profile.availabilities') }}
         </h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
             @foreach($doctor->availabilities as $avail)
@@ -53,33 +53,33 @@
         @if(auth()->user()->isPatient())
         <div id="book" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
             <h2 class="text-lg font-semibold text-gray-800 mb-4">
-                <i class="fas fa-calendar-plus text-blue-500 mr-2"></i>Prendre un rendez-vous
+                <i class="fas fa-calendar-plus text-blue-500 mr-2"></i>{{ __('app.profile.book_title') }}
             </h2>
             <form method="POST" action="{{ route('patient.book', $doctor) }}" class="space-y-4">
                 @csrf
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Date et heure</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.profile.datetime') }}</label>
                     <input type="datetime-local" name="date" required
                            min="{{ now()->addHour()->format('Y-m-d\TH:i') }}"
                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Motif de consultation</label>
-                    <textarea name="reason" rows="3" placeholder="Décrivez brièvement votre motif..."
+                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.profile.reason') }}</label>
+                    <textarea name="reason" rows="3" placeholder="{{ __('app.profile.reason_placeholder') }}"
                               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none resize-none"></textarea>
                 </div>
                 <button type="submit"
                         class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition">
-                    Envoyer la demande
+                    {{ __('app.profile.send_request') }}
                 </button>
             </form>
         </div>
         @endif
     @else
     <div class="bg-blue-50 rounded-2xl p-6 text-center">
-        <p class="text-blue-700 mb-3">Connectez-vous pour prendre un rendez-vous</p>
+        <p class="text-blue-700 mb-3">{{ __('app.profile.login_to_book') }}</p>
         <a href="{{ route('login') }}" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition inline-block">
-            Se connecter
+            {{ __('app.profile.login_btn') }}
         </a>
     </div>
     @endauth

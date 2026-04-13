@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Conversation avec ' . $contact->name)
+@section('title', __('app.messages.conversation_with') . ' ' . $contact->name)
 
 @section('content')
 <div class="mx-auto flex max-w-3xl flex-col" style="height: calc(100vh - 10rem); min-height: 22rem;" id="chat-app">
@@ -19,9 +19,9 @@
                 </p>
                 <p class="text-xs text-slate-500">
                     @if($lastMessageFromContact)
-                        Dernier message reçu · {{ $lastMessageFromContact->sent_at->diffForHumans() }}
+                        {{ __('app.messages.last_message') }} {{ $lastMessageFromContact->sent_at->diffForHumans() }}
                     @else
-                        Pas encore de message de ce contact
+                        {{ __('app.messages.no_message_yet') }}
                     @endif
                 </p>
             </div>
@@ -52,7 +52,7 @@
 
                 <div v-if="messages.length === 0" class="py-12 text-center text-slate-400">
                     <i class="fas fa-comment-dots mb-3 text-4xl opacity-50"></i>
-                    <p class="text-sm">Démarrez la conversation</p>
+                    <p class="text-sm">{{ __('app.messages.start_conversation') }}</p>
                 </div>
             </div>
         </div>
@@ -63,15 +63,15 @@
                 <input v-model="newMessage"
                        type="text"
                        autocomplete="off"
-                       placeholder="Écrire un message…"
+                       placeholder="{{ __('app.messages.type_message') }}"
                        class="min-h-[2.75rem] flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
                        :disabled="sending">
                 <button type="submit"
                         class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white shadow-sm transition hover:bg-primary-700 disabled:opacity-50 sm:h-11 sm:w-auto sm:px-5"
                         :disabled="!newMessage.trim() || sending"
-                        aria-label="Envoyer">
+                        aria-label="{{ __('app.messages.send') }}">
                     <i class="fas fa-paper-plane text-sm sm:mr-2"></i>
-                    <span class="hidden sm:inline">Envoyer</span>
+                    <span class="hidden sm:inline">{{ __('app.messages.send') }}</span>
                 </button>
             </form>
         </div>

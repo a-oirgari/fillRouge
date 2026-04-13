@@ -1,17 +1,17 @@
 @extends('layouts.app')
-@section('title', 'Rechercher un médecin')
+@section('title', __('app.search.title'))
 
 @section('content')
 <div class="space-y-6">
-    <h1 class="text-2xl font-bold text-gray-800">Trouver un médecin</h1>
+    <h1 class="text-2xl font-bold text-gray-800">{{ __('app.search.title') }}</h1>
 
     
     <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
         <form method="GET" action="{{ route('doctors.search') }}" class="flex flex-wrap gap-4 items-end">
             <div class="flex-1 min-w-[200px]">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Spécialité</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.search.speciality') }}</label>
                 <select name="speciality_id" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
-                    <option value="">Toutes les spécialités</option>
+                    <option value="">{{ __('app.search.all_specialities') }}</option>
                     @foreach($specialities as $spec)
                         <option value="{{ $spec->id }}" {{ request('speciality_id') == $spec->id ? 'selected' : '' }}>
                             {{ $spec->name }}
@@ -21,27 +21,34 @@
             </div>
 
             <div class="flex-1 min-w-[200px]">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Ville</label>
-                <input type="text" name="city" value="{{ request('city') }}"
-                       placeholder="Casablanca, Rabat..."
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.search.city') }}</label>
+                <input type="text" name="city" value="{{ request('city') }}" list="cities-list"
+                       placeholder="{{ __('app.search.city_placeholder') }}"
                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+                <datalist id="cities-list">
+                    @if(isset($cities))
+                        @foreach($cities as $c)
+                            <option value="{{ $c }}">
+                        @endforeach
+                    @endif
+                </datalist>
             </div>
 
             <button type="submit"
                     class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
-                <i class="fas fa-search"></i> Rechercher
+                <i class="fas fa-search"></i> {{ __('app.search.search_btn') }}
             </button>
         </form>
     </div>
 
     
     <div>
-        <p class="text-sm text-gray-500 mb-4">{{ $doctors->total() }} médecin(s) trouvé(s)</p>
+        <p class="text-sm text-gray-500 mb-4">{{ __('app.search.doctors_found', ['count' => $doctors->total()]) }}</p>
 
         @if($doctors->isEmpty())
             <div class="text-center py-16 bg-white rounded-2xl border border-gray-100">
                 <i class="fas fa-user-md text-5xl text-gray-300 mb-4"></i>
-                <p class="text-gray-500">Aucun médecin trouvé avec ces critères</p>
+                <p class="text-gray-500">{{ __('app.search.no_doctors') }}</p>
             </div>
         @else
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -58,7 +65,7 @@
                         <div>
                             <h3 class="font-semibold text-gray-800">Dr. {{ $doctor->user->name }}</h3>
                             <p class="text-sm text-blue-600">
-                                {{ $doctor->specialities->pluck('name')->join(', ') ?: 'Médecin généraliste' }}
+                                {{ $doctor->specialities->pluck('name')->join(', ') ?: __('app.search.generalist') }}
                             </p>
                         </div>
                     </div>
@@ -75,13 +82,13 @@
                     <div class="flex gap-2">
                         <a href="{{ route('doctors.show', $doctor) }}"
                            class="flex-1 text-center border border-blue-600 text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 transition">
-                            Voir profil
+                            {{ __('app.search.view_profile') }}
                         </a>
                         @auth
                             @if(auth()->user()->isPatient())
                             <a href="{{ route('doctors.show', $doctor) }}#book"
                                class="flex-1 text-center bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
-                                Prendre RDV
+                                {{ __('app.search.book_appointment') }}
                             </a>
                             @endif
                         @endauth

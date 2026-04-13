@@ -36,6 +36,7 @@ class PatientController extends Controller
     public function searchDoctors(Request $request)
     {
         $specialities = Speciality::all();
+        $cities = Doctor::validated()->whereNotNull('city')->where('city', '!=', '')->distinct()->pluck('city')->sort();
 
         $doctors = Doctor::validated()
             ->with(['user', 'specialities', 'availabilities'])
@@ -43,7 +44,7 @@ class PatientController extends Controller
             ->byCity($request->city)
             ->paginate(12);
 
-        return view('patient.search', compact('doctors', 'specialities'));
+        return view('patient.search', compact('doctors', 'specialities', 'cities'));
     }
 
     public function showDoctor(Doctor $doctor)

@@ -1,16 +1,16 @@
 @extends('layouts.app')
-@section('title', 'Mon Historique Médical')
+@section('title', __('app.history.title'))
 
 @section('content')
 <div class="space-y-6">
     <h1 class="text-2xl font-bold text-gray-800">
-        <i class="fas fa-history text-purple-500 mr-2"></i>Historique médical
+        <i class="fas fa-history text-purple-500 mr-2"></i>{{ __('app.history.title') }}
     </h1>
 
     @if($history->isEmpty())
         <div class="text-center py-16 bg-white rounded-2xl border border-gray-100">
             <i class="fas fa-file-medical text-5xl text-gray-300 mb-4"></i>
-            <p class="text-gray-500">Aucune consultation pour l'instant</p>
+            <p class="text-gray-500">{{ __('app.history.no_history') }}</p>
         </div>
     @else
         <div class="space-y-5">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">
-                        Terminé
+                        {{ __('app.history.completed') }}
                     </span>
                 </div>
 
@@ -36,7 +36,7 @@
                 <div class="p-5 space-y-4">
                     @if($apt->reason)
                     <div>
-                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">Motif de consultation</p>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">{{ __('app.history.reason') }}</p>
                         <p class="text-sm text-gray-700">{{ $apt->reason }}</p>
                     </div>
                     @endif
@@ -44,7 +44,7 @@
                     @if($apt->consultation)
                     <div>
                         <p class="text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">
-                            <i class="fas fa-stethoscope mr-1 text-blue-400"></i>Diagnostic
+                            <i class="fas fa-stethoscope mr-1 text-blue-400"></i>{{ __('app.history.diagnostic') }}
                         </p>
                         <p class="text-sm text-gray-700 bg-blue-50 rounded-xl p-3">
                             {{ $apt->consultation->diagnostic }}
@@ -54,7 +54,7 @@
                     @if($apt->consultation->prescription)
                     <div>
                         <p class="text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">
-                            <i class="fas fa-prescription-bottle mr-1 text-green-400"></i>Ordonnance
+                            <i class="fas fa-prescription-bottle mr-1 text-green-400"></i>{{ __('app.history.prescription') }}
                         </p>
                         <p class="text-sm text-gray-700 bg-green-50 rounded-xl p-3 whitespace-pre-line">
                             {{ $apt->consultation->prescription->content }}
@@ -62,7 +62,7 @@
                     </div>
                     @endif
                     @else
-                    <p class="text-sm text-gray-400 italic">Aucun diagnostic enregistré.</p>
+                    <p class="text-sm text-gray-400 italic">{{ __('app.history.no_diagnostic') }}</p>
                     @endif
                 </div>
             </div>

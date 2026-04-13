@@ -1,20 +1,20 @@
 @extends('layouts.app')
-@section('title', 'Messages')
+@section('title', __('app.messages.title'))
 
 @section('content')
 <div class="max-w-2xl mx-auto space-y-5">
     <h1 class="text-2xl font-bold tracking-tight text-slate-900">
-        <i class="fas fa-envelope text-primary-600 mr-2"></i>Messages
+        <i class="fas fa-envelope text-primary-600 mr-2"></i>{{ __('app.messages.title') }}
     </h1>
 
     @if($conversations->isEmpty())
         <div class="text-center py-16 bg-white rounded-2xl border border-slate-200/80 shadow-sm">
             <i class="fas fa-comment-dots text-5xl text-gray-300 mb-4"></i>
-            <p class="text-gray-500">Aucune conversation pour l'instant</p>
+            <p class="text-gray-500">{{ __('app.messages.no_conversations') }}</p>
             @if(auth()->user()->isPatient())
             <a href="{{ route('doctors.search') }}"
                class="text-primary-600 hover:text-primary-700 font-medium text-sm mt-2 inline-block">
-                Trouver un médecin pour démarrer une conversation
+                {{ __('app.messages.find_doctor_to_msg') }}
             </a>
             @endif
         </div>
@@ -44,7 +44,7 @@
                     </div>
                     <p class="text-sm text-gray-500 truncate mt-0.5">
                         @if($lastMessage->sender_id === auth()->id())
-                            <span class="text-gray-400">Vous : </span>
+                            <span class="text-gray-400">{{ __('app.messages.you') }} </span>
                         @endif
                         {{ $lastMessage->content }}
                     </p>
