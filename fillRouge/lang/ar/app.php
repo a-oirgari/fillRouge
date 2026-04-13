@@ -141,6 +141,19 @@ return [
         'admin' => 'مسؤول',
     ],
 
+    'specialities' => [
+        'Cardiologie' => 'طب القلب',
+        'Dermatologie' => 'طب الأمراض الجلدية',
+        'Gynécologie' => 'طب النساء',
+        'Médecine générale' => 'الطب العام',
+        'Neurologie' => 'طب الأعصاب',
+        'Ophtalmologie' => 'طب العيون',
+        'ORL' => 'طب الأنف والأذن والحنجرة',
+        'Orthopédie' => 'طب العظام',
+        'Pédiatrie' => 'طب الأطفال',
+        'Psychiatrie' => 'الطب النفسي',
+    ],
+
     'search' => [
         'title' => 'البحث عن طبيب',
         'speciality' => 'التخصص',

@@ -14,7 +14,7 @@
                     <option value="">{{ __('app.search.all_specialities') }}</option>
                     @foreach($specialities as $spec)
                         <option value="{{ $spec->id }}" {{ request('speciality_id') == $spec->id ? 'selected' : '' }}>
-                            {{ $spec->name }}
+                            {{ __('app.specialities.' . $spec->name) }}
                         </option>
                     @endforeach
                 </select>
@@ -42,7 +42,7 @@
     </div>
 
     
-    <div>
+    <div id="doctors-list-container">
         <p class="text-sm text-gray-500 mb-4">{{ __('app.search.doctors_found', ['count' => $doctors->total()]) }}</p>
 
         @if($doctors->isEmpty())
@@ -65,7 +65,7 @@
                         <div>
                             <h3 class="font-semibold text-gray-800">Dr. {{ $doctor->user->name }}</h3>
                             <p class="text-sm text-blue-600">
-                                {{ $doctor->specialities->pluck('name')->join(', ') ?: __('app.search.generalist') }}
+                                {{ $doctor->specialities->map(function($s) { return __('app.specialities.' . $s->name); })->join(', ') ?: __('app.search.generalist') }}
                             </p>
                         </div>
                     </div>
@@ -102,3 +102,46 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    let timeout = null;
+    const searchForm = document.querySelector('form');
+    const container = document.getElementById('doctors-list-container');
+    const inputs = searchForm.querySelectorAll('input, select');
+
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                const url = new URL(searchForm.action);
+                const params = new URLSearchParams(new FormData(searchForm));
+                url.search = params.toString();
+
+                // Add a visual loading state or opacity here if needed
+                container.style.opacity = '0.5';
+
+                fetch(url.toString(), {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest' // If we want to return just partial, but full HTML is fine
+                    }
+                })
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newContainer = doc.getElementById('doctors-list-container');
+                    if(newContainer) {
+                        container.innerHTML = newContainer.innerHTML;
+                    }
+                    container.style.opacity = '1';
+                })
+                .catch(error => {
+                    console.error('Error fetching doctors:', error);
+                    container.style.opacity = '1';
+                });
+            }, 300); // 300ms debounce
+        });
+    });
+</script>
+@endpush

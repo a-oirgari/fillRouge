@@ -141,6 +141,19 @@ return [
         'admin' => 'Administrateur',
     ],
 
+    'specialities' => [
+        'Cardiologie' => 'Cardiologie',
+        'Dermatologie' => 'Dermatologie',
+        'Gynécologie' => 'Gynécologie',
+        'Médecine générale' => 'Médecine générale',
+        'Neurologie' => 'Neurologie',
+        'Ophtalmologie' => 'Ophtalmologie',
+        'ORL' => 'ORL',
+        'Orthopédie' => 'Orthopédie',
+        'Pédiatrie' => 'Pédiatrie',
+        'Psychiatrie' => 'Psychiatrie',
+    ],
+
     'search' => [
         'title' => 'Trouver un médecin',
         'speciality' => 'Spécialité',
