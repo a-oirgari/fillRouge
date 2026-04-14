@@ -85,14 +85,18 @@ class PatientController extends Controller
             ->with('success', 'Rendez-vous demandé avec succès !');
     }
 
-    public function appointments()
+    public function appointments(Request $request)
     {
         $patient = Auth::user()->patient;
 
-        $appointments = $patient->appointments()
-            ->with(['doctor.user', 'doctor.specialities', 'consultation'])
-            ->orderByDesc('date')
-            ->paginate(10);
+        $query = $patient->appointments()
+            ->with(['doctor.user', 'doctor.specialities', 'consultation']);
+
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
+        $appointments = $query->orderByDesc('date')->paginate(10);
 
         return view('patient.appointments', compact('appointments'));
     }
