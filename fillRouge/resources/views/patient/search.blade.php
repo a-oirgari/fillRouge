@@ -28,7 +28,7 @@
                 <datalist id="cities-list">
                     @if(isset($cities))
                         @foreach($cities as $c)
-                            <option value="{{ $c }}">
+                            <option value="{{ trans()->has('cities.'.$c) ? __('cities.'.$c) : $c }}">
                         @endforeach
                     @endif
                 </datalist>
@@ -72,7 +72,7 @@
 
                     <div class="space-y-1 text-sm text-gray-500 mb-4">
                         @if($doctor->city)
-                        <p><i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>{{ $doctor->city }}</p>
+                        <p><i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>{{ trans()->has('cities.'.$doctor->city) ? __('cities.'.$doctor->city) : $doctor->city }}</p>
                         @endif
                         @if($doctor->bio)
                         <p class="line-clamp-2 text-gray-600">{{ $doctor->bio }}</p>

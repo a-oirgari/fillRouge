@@ -19,7 +19,7 @@
                     {{ $doctor->specialities->pluck('name')->join(' · ') ?: __('app.profile.generalist') }}
                 </p>
                 @if($doctor->city)
-                <p class="text-gray-500 mt-1"><i class="fas fa-map-marker-alt mr-1"></i>{{ $doctor->city }}</p>
+                <p class="text-gray-500 mt-1"><i class="fas fa-map-marker-alt mr-1"></i>{{ trans()->has('cities.'.$doctor->city) ? __('cities.'.$doctor->city) : $doctor->city }}</p>
                 @endif
                 @if($doctor->phone)
                 <p class="text-gray-500 mt-1"><i class="fas fa-phone mr-1"></i>{{ $doctor->phone }}</p>

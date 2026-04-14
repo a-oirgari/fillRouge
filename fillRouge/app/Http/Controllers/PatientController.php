@@ -38,10 +38,28 @@ class PatientController extends Controller
         $specialities = Speciality::all();
         $cities = Doctor::validated()->whereNotNull('city')->where('city', '!=', '')->distinct()->pluck('city')->sort();
 
+        $searchCity = $request->city;
+        if ($searchCity) {
+            $langCities = trans('cities');
+            if (is_array($langCities)) {
+                $matchedKeys = [];
+                foreach ($langCities as $key => $translation) {
+                    if (\Illuminate\Support\Str::contains($translation, $searchCity, true)) {
+                        $matchedKeys[] = $key;
+                    }
+                }
+                
+                if (!empty($matchedKeys)) {
+                    $matchedKeys[] = $searchCity;
+                    $searchCity = $matchedKeys;
+                }
+            }
+        }
+
         $doctors = Doctor::validated()
             ->with(['user', 'specialities', 'availabilities'])
             ->bySpeciality($request->speciality_id)
-            ->byCity($request->city)
+            ->byCity($searchCity)
             ->paginate(12);
 
         return view('patient.search', compact('doctors', 'specialities', 'cities'));

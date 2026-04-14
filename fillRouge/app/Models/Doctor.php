@@ -47,7 +47,19 @@ class Doctor extends Model
 
     public function scopeByCity($query, $city)
     {
-        return $city ? $query->where('city', 'like', "%{$city}%") : $query;
+        if (!$city) {
+            return $query;
+        }
+
+        if (is_array($city)) {
+            return $query->where(function($q) use ($city) {
+                foreach ($city as $c) {
+                    $q->orWhere('city', 'like', "%{$c}%");
+                }
+            });
+        }
+
+        return $query->where('city', 'like', "%{$city}%");
     }
 
     public function scopeBySpeciality($query, $specialityId)
