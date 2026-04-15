@@ -61,6 +61,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.profile.datetime') }}</label>
                     <input type="datetime-local" name="date" required
                            min="{{ now()->addHour()->format('Y-m-d\TH:i') }}"
+                           step="1800"
                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none">
                 </div>
                 <div>

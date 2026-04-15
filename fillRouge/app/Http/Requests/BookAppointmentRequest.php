@@ -15,7 +15,12 @@ class BookAppointmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date'   => ['required', 'date', 'after:now'],
+            'date'   => ['required', 'date', 'after:now', function ($attribute, $value, $fail) {
+                $minutes = date('i', strtotime($value));
+                if ($minutes !== '00' && $minutes !== '30') {
+                    $fail('Les rendez-vous se font uniquement par tranche de 30 minutes.');
+                }
+            }],
             'reason' => ['nullable', 'string', 'max:500'],
         ];
     }

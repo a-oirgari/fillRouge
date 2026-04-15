@@ -78,17 +78,42 @@ class PatientController extends Controller
     {
         $patient = Auth::user()->patient;
 
-        
-        $exists = Appointment::where('patient_id', $patient->id)
-            ->where('doctor_id', $doctor->id)
+        // 1. Check for Double-Booking
+        $isBooked = Appointment::where('doctor_id', $doctor->id)
             ->where('date', $request->date)
             ->whereIn('status', ['pending', 'accepted'])
             ->exists();
 
-        if ($exists) {
+        if ($isBooked) {
             return back()->withErrors([
-                'date' => 'Vous avez déjà un rendez-vous à cette date avec ce médecin.',
-            ]);
+                'date' => "Ce créneau a déjà été réservé, veuillez choisir une autre heure.",
+            ])->withInput();
+        }
+
+        // 2. Check Doctor Availabilities
+        if ($doctor->availabilities()->exists()) {
+            $carbonDate = \Carbon\Carbon::parse($request->date);
+            $dayNames = [
+                0 => 'Dimanche', 1 => 'Lundi', 2 => 'Mardi',
+                3 => 'Mercredi', 4 => 'Jeudi', 5 => 'Vendredi', 6 => 'Samedi',
+            ];
+            $requestedDay = $dayNames[$carbonDate->dayOfWeek];
+            
+            $timeString = $carbonDate->format('H:i:s');
+            // ensure 30min is available inside the slot
+            $endTimeString = $carbonDate->copy()->addMinutes(30)->format('H:i:s');
+
+            $isAvailable = clone $doctor->availabilities()
+                ->where('day', $requestedDay)
+                ->where('start_time', '<=', $timeString)
+                ->where('end_time', '>=', $endTimeString)
+                ->exists();
+
+            if (!$isAvailable) {
+                return back()->withErrors([
+                    'date' => "Le médecin n'est pas disponible à cette heure-là.",
+                ])->withInput();
+            }
         }
 
         Appointment::create([
@@ -114,7 +139,7 @@ class PatientController extends Controller
             $query->where('status', $request->status);
         }
 
-        $appointments = $query->orderByDesc('date')->paginate(10);
+        $appointments = $query->latest('created_at')->paginate(10);
 
         return view('patient.appointments', compact('appointments'));
     }
