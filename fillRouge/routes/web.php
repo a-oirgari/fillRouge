@@ -77,6 +77,7 @@ Route::middleware('auth')->prefix('messages')->name('messages.')->group(function
     Route::get('/unread-count', [MessageController::class, 'unreadCount'])->name('unread-count');
     Route::get('/', [MessageController::class, 'index'])->name('index');
     Route::get('/{contact}', [MessageController::class, 'conversation'])->name('conversation');
+    Route::get('/{contact}/call', [MessageController::class, 'videoCall'])->name('call');
     Route::post('/{contact}', [MessageController::class, 'send'])->name('send');
     Route::get('/{contact}/fetch', [MessageController::class, 'getMessages'])->name('fetch');
 });

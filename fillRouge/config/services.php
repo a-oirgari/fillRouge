@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'zegocloud' => [
+        'app_id' => env('ZEGOCLOUD_APP_ID'),
+        'server_secret' => env('ZEGOCLOUD_SERVER_SECRET'),
+    ],
+
 ];

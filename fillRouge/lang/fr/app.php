@@ -216,5 +216,6 @@ return [
         'start_conversation' => 'Démarrez la conversation',
         'type_message' => 'Écrire un message…',
         'send' => 'Envoyer',
+        'video_call' => 'Appel vidéo',
     ],
 ];

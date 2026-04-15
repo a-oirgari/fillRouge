@@ -62,6 +62,17 @@ class MessageController extends Controller
         return view('messages.conversation', compact('messages', 'contact', 'lastMessageFromContact'));
     }
 
+    public function videoCall(User $contact)
+    {
+        $user = Auth::user();
+        
+        $ids = [$user->id, $contact->id];
+        sort($ids);
+        $roomID = 'chat_' . $ids[0] . '_' . $ids[1];
+
+        return view('messages.call', compact('contact', 'roomID'));
+    }
+
     public function send(SendMessageRequest $request, User $contact)
     {
         $message = Message::create([

@@ -25,6 +25,12 @@
                     @endif
                 </p>
             </div>
+            
+            <a href="{{ route('messages.call', $contact) }}" 
+               title="{{ __('app.messages.video_call') }}"
+               class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 shadow-sm transition hover:bg-primary-100 hover:text-primary-700">
+                <i class="fas fa-video"></i>
+            </a>
         </div>
 
         <!-- Messages (scroll) -->
