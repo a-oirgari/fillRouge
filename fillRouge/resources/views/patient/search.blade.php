@@ -7,7 +7,7 @@
 
     
     <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-        <form method="GET" action="{{ route('doctors.search') }}" class="flex flex-wrap gap-4 items-end">
+        <form id="search-doctors-form" method="GET" action="{{ route('doctors.search') }}" class="flex flex-wrap gap-4 items-end">
             <div class="flex-1 min-w-[200px]">
                 <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.search.speciality') }}</label>
                 <select name="speciality_id" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none">
@@ -106,7 +106,7 @@
 @push('scripts')
 <script>
     let timeout = null;
-    const searchForm = document.querySelector('form');
+    const searchForm = document.getElementById('search-doctors-form');
     const container = document.getElementById('doctors-list-container');
     const inputs = searchForm.querySelectorAll('input, select');
 
