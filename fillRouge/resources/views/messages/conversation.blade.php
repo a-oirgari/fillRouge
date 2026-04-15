@@ -168,8 +168,12 @@ createApp({
 
                 const data = await res.json();
 
-                messages.value.push(data.message);
-                scrollToBottom();
+                // Prevent duplication since Reverb might have already pushed this exact message via websocket
+                const alreadyExists = messages.value.some(m => m.id === data.message.id);
+                if (!alreadyExists) {
+                    messages.value.push(data.message);
+                    scrollToBottom();
+                }
 
             } catch (e) {
                 console.error('Erreur envoi message:', e);
