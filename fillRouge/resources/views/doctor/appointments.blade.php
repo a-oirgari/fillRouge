@@ -82,9 +82,9 @@
                             @endif
 
                             @if($apt->status === 'accepted')
-                            <a href="{{ route('doctor.consultation.show', $apt) }}"
-                               class="bg-primary-600 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-primary-700 transition">
-                                <i class="fas fa-stethoscope mr-1"></i>Consulter
+                            <a href="{{ route('messages.call', $apt->patient->user) }}"
+                               class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-blue-700 transition">
+                                <i class="fas fa-video mr-1"></i>Lancer l'appel
                             </a>
                             @endif
 

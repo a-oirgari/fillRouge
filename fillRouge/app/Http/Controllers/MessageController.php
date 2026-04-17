@@ -70,7 +70,21 @@ class MessageController extends Controller
         sort($ids);
         $roomID = 'chat_' . $ids[0] . '_' . $ids[1];
 
-        return view('messages.call', compact('contact', 'roomID'));
+        // Broadcast CallInitiated to alert the other user
+        broadcast(new \App\Events\CallInitiated($user, $contact->id));
+
+        // Let's see if there is an active appointment (accepted and today) 
+        // to pass to the view so the doctor can be redirected properly afterwards.
+        $appointment = null;
+        if ($user->isDoctor()) {
+            $appointment = \App\Models\Appointment::where('doctor_id', $user->doctor->id)
+                ->where('patient_id', $contact->patient->id ?? 0)
+                ->whereIn('status', ['accepted', 'pending'])
+                ->whereDate('date', today())
+                ->first();
+        }
+
+        return view('messages.call', compact('contact', 'roomID', 'appointment'));
     }
 
     public function send(SendMessageRequest $request, User $contact)

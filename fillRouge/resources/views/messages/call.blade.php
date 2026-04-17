@@ -73,7 +73,11 @@ window.onload = function () {
         showRoomTimer: true,
         showPreJoinView: false, // join directly
         onLeaveRoom: () => {
-             window.location.href = "{{ route('messages.conversation', $contact) }}";
+             @if(isset($appointment) && $appointment)
+                 window.location.href = "{{ route('doctor.consultation.show', $appointment->id) }}";
+             @else
+                 window.location.href = "{{ route('messages.conversation', $contact) }}";
+             @endif
         }
     });
 }

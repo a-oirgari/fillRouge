@@ -206,6 +206,41 @@
                     navBadge.textContent = n > 99 ? '99+' : String(n);
                 }
             });
+
+            // Listen for incoming calls
+            ch.bind('App\\Events\\CallInitiated', function(data) {
+                const callPopup = document.createElement('div');
+                callPopup.className = "fixed bottom-5 right-5 z-[9999] bg-white rounded-xl shadow-2xl border-l-4 border-primary-500 p-5 w-80 transform transition-all duration-500 translate-y-full opacity-0";
+                
+                const rolePrefix = data.caller.role === 'doctor' ? 'Dr. ' : '';
+                
+                callPopup.innerHTML = `
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center animate-pulse">
+                            <i class="fas fa-phone-volume text-primary-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm">Appel entrant</h4>
+                            <p class="text-xs text-slate-500">${rolePrefix}${data.caller.name}</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="/messages/${data.caller.id}/call" class="flex-1 bg-green-500 hover:bg-green-600 text-white text-center py-2 rounded-lg text-xs font-bold transition shadow-sm">
+                            <i class="fas fa-video mr-1"></i> Répondre
+                        </a>
+                        <button onclick="this.closest('div.fixed').remove()" class="flex-1 bg-red-100 hover:bg-red-200 text-red-700 text-center py-2 rounded-lg text-xs font-bold transition">
+                            Ignorer
+                        </button>
+                    </div>
+                `;
+                
+                document.body.appendChild(callPopup);
+                
+                // Animate in
+                setTimeout(() => {
+                    callPopup.classList.remove('translate-y-full', 'opacity-0');
+                }, 100);
+            });
         })();
     </script>
     @endauth
