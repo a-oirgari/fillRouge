@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>[x-cloak] { display: none !important; }</style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -52,7 +54,7 @@
 <body class="min-h-screen bg-page-gradient font-sans text-slate-800 antialiased flex flex-col {{ app()->getLocale() === 'ar' ? 'font-arabic' : '' }}">
 
 
-    <nav class="sticky top-0 z-50 border-b border-slate-200/90 bg-white/85 shadow-sm backdrop-blur-md">
+    <nav x-data="{ mobileMenuOpen: false }" class="sticky top-0 z-50 border-b border-slate-200/90 bg-white/85 shadow-sm backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center justify-between gap-3">
                 <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2.5">
@@ -62,7 +64,22 @@
                     <span class="text-xl font-bold tracking-tight text-slate-900">MediConnect</span>
                 </a>
 
-                <div class="flex flex-wrap items-center justify-end gap-2 sm:gap-4 md:gap-5">
+                <!-- Hamburger Button (Mobile) -->
+                <div class="flex md:hidden items-center gap-3 relative">
+                    @auth
+                    <a href="{{ route('messages.index') }}" class="relative inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 hover:text-primary-700">
+                        <i class="fas fa-envelope text-lg"></i>
+                        <span id="nav-msg-badge-mobile" class="absolute end-1 top-1 hidden min-h-[1.125rem] min-w-[1.125rem] rounded-full bg-primary-600 px-1 text-center text-[0.65rem] font-bold leading-tight text-white">0</span>
+                    </a>
+                    @endauth
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-slate-600 hover:text-primary-700 focus:outline-none p-2 relative z-10 rounded-lg bg-surface-50 border border-slate-200">
+                        <i class="fas fa-bars text-xl" x-show="!mobileMenuOpen"></i>
+                        <i class="fas fa-times text-xl" x-show="mobileMenuOpen" x-cloak></i>
+                    </button>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex flex-wrap items-center justify-end gap-2 sm:gap-4 md:gap-5">
                     {{-- Sélecteur de langue --}}
                     <div class="flex items-center rounded-lg border border-slate-200/90 bg-surface-50 p-0.5 text-xs font-semibold shadow-sm">
                         <a href="{{ route('locale.switch', ['locale' => 'fr']) }}"
@@ -114,6 +131,50 @@
                         </a>
                     @endauth
                 </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div x-show="mobileMenuOpen" x-transition x-cloak class="md:hidden border-t border-slate-100 bg-white/95 backdrop-blur-lg absolute w-full shadow-lg">
+            <div class="px-4 pt-4 pb-6 space-y-3 flex flex-col">
+                {{-- Sélecteur de langue Mobile --}}
+                <div class="flex items-center rounded-lg border border-slate-200/90 bg-surface-50 p-1 text-sm font-semibold shadow-sm max-w-[200px] mb-2">
+                    <a href="{{ route('locale.switch', ['locale' => 'fr']) }}" class="flex-1 text-center rounded-md px-3 py-2 transition {{ app()->getLocale() === 'fr' ? 'bg-white text-primary-700 shadow-sm' : 'text-slate-500 hover:text-slate-800' }}">FR</a>
+                    <a href="{{ route('locale.switch', ['locale' => 'ar']) }}" class="flex-1 text-center rounded-md px-3 py-2 transition {{ app()->getLocale() === 'ar' ? 'bg-white text-primary-700 shadow-sm' : 'text-slate-500 hover:text-slate-800' }}">عربي</a>
+                </div>
+
+                <a href="{{ route('doctors.search') }}" class="block p-3 rounded-xl bg-slate-50 text-slate-700 font-medium hover:bg-primary-50 hover:text-primary-700 transition">
+                    <i class="fas fa-search text-primary-500 w-6"></i> {{ __('app.nav.doctors') }}
+                </a>
+
+                @auth
+                    @if(auth()->user()->isPatient())
+                        <a href="{{ route('patient.dashboard') }}" class="block p-3 rounded-xl bg-slate-50 text-slate-700 font-medium hover:bg-primary-50 hover:text-primary-700 transition"><i class="fas fa-chart-line text-primary-500 w-6"></i> {{ __('app.nav.dashboard') }}</a>
+                        <a href="{{ route('patient.appointments') }}" class="block p-3 rounded-xl bg-slate-50 text-slate-700 font-medium hover:bg-primary-50 hover:text-primary-700 transition"><i class="fas fa-calendar-alt text-primary-500 w-6"></i> {{ __('app.nav.my_appointments') }}</a>
+                    @elseif(auth()->user()->isDoctor())
+                        <a href="{{ route('doctor.dashboard') }}" class="block p-3 rounded-xl bg-slate-50 text-slate-700 font-medium hover:bg-primary-50 hover:text-primary-700 transition"><i class="fas fa-chart-line text-primary-500 w-6"></i> {{ __('app.nav.dashboard') }}</a>
+                        <a href="{{ route('doctor.appointments') }}" class="block p-3 rounded-xl bg-slate-50 text-slate-700 font-medium hover:bg-primary-50 hover:text-primary-700 transition"><i class="fas fa-calendar-alt text-primary-500 w-6"></i> {{ __('app.nav.appointments') }}</a>
+                    @elseif(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}" class="block p-3 rounded-xl bg-slate-50 text-slate-700 font-medium hover:bg-primary-50 hover:text-primary-700 transition"><i class="fas fa-chart-pie text-primary-500 w-6"></i> {{ __('app.nav.admin') }}</a>
+                    @endif
+                    
+                    <div class="h-px bg-slate-200 my-2"></div>
+                    <div class="flex items-center justify-between p-3">
+                        <span class="font-bold text-slate-800"><i class="fas fa-user-circle text-primary-500 mr-2"></i> {{ auth()->user()->name }}</span>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="text-sm font-bold text-red-500 bg-red-50 px-4 py-2 rounded-lg hover:bg-red-100 transition">
+                                <i class="fas fa-sign-out-alt"></i> {{ __('app.nav.logout') }}
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div class="h-px bg-slate-200 my-2"></div>
+                    <div class="grid grid-cols-2 gap-3 mt-2">
+                        <a href="{{ route('login') }}" class="text-center p-3 font-bold text-slate-700 bg-slate-100 rounded-xl hover:bg-slate-200 transition">{{ __('app.nav.login') }}</a>
+                        <a href="{{ route('register') }}" class="text-center p-3 font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition">{{ __('app.nav.register') }}</a>
+                    </div>
+                @endauth
             </div>
         </div>
     </nav>
