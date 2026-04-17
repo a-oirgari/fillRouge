@@ -86,6 +86,10 @@
                                class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-blue-700 transition">
                                 <i class="fas fa-video mr-1"></i>Lancer l'appel
                             </a>
+                            <a href="{{ route('doctor.consultation.show', $apt) }}"
+                               class="bg-primary-600 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-primary-700 transition ml-2">
+                                <i class="fas fa-check mr-1"></i>Terminer (Diagnostic)
+                            </a>
                             @endif
 
                             @if($apt->status === 'completed')

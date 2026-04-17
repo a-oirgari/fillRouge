@@ -78,42 +78,40 @@ class PatientController extends Controller
     {
         $patient = Auth::user()->patient;
 
-        // 1. Check for Double-Booking
+        // 1. Validate if there is already an appointment
         $isBooked = Appointment::where('doctor_id', $doctor->id)
             ->where('date', $request->date)
             ->whereIn('status', ['pending', 'accepted'])
             ->exists();
 
         if ($isBooked) {
-            return back()->withErrors([
-                'date' => "Ce créneau a déjà été réservé, veuillez choisir une autre heure.",
-            ])->withInput();
+             return back()->withErrors([
+                 'date' => "Ce médecin a déjà un rendez-vous planifié à cette heure. Veuillez choisir un autre créneau.",
+             ])->withInput();
         }
 
-        // 2. Check Doctor Availabilities
-        if ($doctor->availabilities()->exists()) {
-            $carbonDate = \Carbon\Carbon::parse($request->date);
-            $dayNames = [
-                0 => 'Dimanche', 1 => 'Lundi', 2 => 'Mardi',
-                3 => 'Mercredi', 4 => 'Jeudi', 5 => 'Vendredi', 6 => 'Samedi',
-            ];
-            $requestedDay = $dayNames[$carbonDate->dayOfWeek];
-            
-            $timeString = $carbonDate->format('H:i:s');
-            // ensure 30min is available inside the slot
-            $endTimeString = $carbonDate->copy()->addMinutes(30)->format('H:i:s');
+        // 2. Validate if the doctor works at this exact time
+        $carbonDate = \Carbon\Carbon::parse($request->date);
+        
+        $dayNames = [
+            1 => 'Lundi', 2 => 'Mardi', 3 => 'Mercredi',
+            4 => 'Jeudi', 5 => 'Vendredi', 6 => 'Samedi', 7 => 'Dimanche'
+        ];
+        $requestedDay = $dayNames[$carbonDate->dayOfWeekIso];
+        $startTime = $carbonDate->format('H:i:s');
+        $endTime = $carbonDate->copy()->addMinutes(15)->format('H:i:s');
 
-            $isAvailable = clone $doctor->availabilities()
-                ->where('day', $requestedDay)
-                ->where('start_time', '<=', $timeString)
-                ->where('end_time', '>=', $endTimeString)
-                ->exists();
+        $isAvailable = $doctor->availabilities()
+             ->where('day', $requestedDay)
+             ->where('start_time', '<=', $startTime)
+             ->where('end_time', '>=', $endTime)
+             ->exists();
 
-            if (!$isAvailable) {
-                return back()->withErrors([
-                    'date' => "Le médecin n'est pas disponible à cette heure-là.",
-                ])->withInput();
-            }
+        // If the doctor has set up their schedule but IS NOT available at this time
+        if ($doctor->availabilities()->count() > 0 && !$isAvailable) {
+             return back()->withErrors([
+                 'date' => "Le médecin ne consulte pas à cette heure-là le " . $requestedDay . ".",
+             ])->withInput();
         }
 
         Appointment::create([
