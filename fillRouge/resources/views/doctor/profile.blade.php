@@ -222,14 +222,19 @@
 
 @push('scripts')
 <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-<script>
-document.addEventListener('alpine:init', () => {
-    Alpine.data('availabilities', () => ({
-        slots: @json($doctor->availabilities->map(fn($a) => [
+@php
+    $slotsData = $doctor->availabilities->map(function($a) {
+        return [
             'day' => $a->day, 
             'start_time' => substr($a->start_time, 0, 5), 
             'end_time' => substr($a->end_time, 0, 5)
-        ])),
+        ];
+    })->values();
+@endphp
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('availabilities', () => ({
+        slots: @json($slotsData),
         addSlot() {
             this.slots.push({ day: 'Lundi', start_time: '09:00', end_time: '17:00' });
         }
