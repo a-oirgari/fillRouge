@@ -62,7 +62,7 @@ class MessageController extends Controller
         return view('messages.conversation', compact('messages', 'contact', 'lastMessageFromContact'));
     }
 
-    public function videoCall(User $contact)
+    public function videoCall(\Illuminate\Http\Request $request, User $contact)
     {
         $user = Auth::user();
         
@@ -70,8 +70,10 @@ class MessageController extends Controller
         sort($ids);
         $roomID = 'chat_' . $ids[0] . '_' . $ids[1];
 
-        // Broadcast CallInitiated to alert the other user
-        broadcast(new \App\Events\CallInitiated($user, $contact->id));
+        // Broadcast CallInitiated to alert the other user only if not joining an existing call
+        if (!$request->has('join')) {
+            broadcast(new \App\Events\CallInitiated($user, $contact->id));
+        }
 
         // Let's see if there is an active appointment (accepted and today) 
         // to pass to the view so the doctor can be redirected properly afterwards.

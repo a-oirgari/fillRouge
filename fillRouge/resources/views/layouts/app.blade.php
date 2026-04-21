@@ -286,7 +286,7 @@
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <a href="/messages/${data.caller.id}/call" class="flex-1 bg-green-500 hover:bg-green-600 text-white text-center py-2 rounded-lg text-xs font-bold transition shadow-sm">
+                        <a href="/messages/${data.caller.id}/call?join=1" class="flex-1 bg-green-500 hover:bg-green-600 text-white text-center py-2 rounded-lg text-xs font-bold transition shadow-sm">
                             <i class="fas fa-video mr-1"></i> Répondre
                         </a>
                         <button onclick="this.closest('div.fixed').remove()" class="flex-1 bg-red-100 hover:bg-red-200 text-red-700 text-center py-2 rounded-lg text-xs font-bold transition">
