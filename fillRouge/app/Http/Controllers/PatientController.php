@@ -8,6 +8,8 @@ use App\Models\Appointment;
 use App\Http\Requests\BookAppointmentRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use \Illuminate\Support\Str;
+use \Illuminate\Support\Carbon;
 
 class PatientController extends Controller
 {
@@ -44,7 +46,7 @@ class PatientController extends Controller
             if (is_array($langCities)) {
                 $matchedKeys = [];
                 foreach ($langCities as $key => $translation) {
-                    if (\Illuminate\Support\Str::contains($translation, $searchCity, true)) {
+                    if (Str::contains($translation, $searchCity, true)) {
                         $matchedKeys[] = $key;
                     }
                 }
@@ -78,7 +80,7 @@ class PatientController extends Controller
     {
         $patient = Auth::user()->patient;
 
-        // 1. Validate if there is already an appointment
+        
         $isBooked = Appointment::where('doctor_id', $doctor->id)
             ->where('date', $request->date)
             ->whereIn('status', ['pending', 'accepted'])
@@ -90,8 +92,8 @@ class PatientController extends Controller
              ])->withInput();
         }
 
-        // 2. Validate if the doctor works at this exact time
-        $carbonDate = \Carbon\Carbon::parse($request->date);
+        
+        $carbonDate = Carbon::parse($request->date);
         
         $dayNames = [
             1 => 'Lundi', 2 => 'Mardi', 3 => 'Mercredi',
@@ -107,7 +109,7 @@ class PatientController extends Controller
              ->where('end_time', '>=', $endTime)
              ->exists();
 
-        // If the doctor has set up their schedule but IS NOT available at this time
+        
         if ($doctor->availabilities()->count() > 0 && !$isAvailable) {
              return back()->withErrors([
                  'date' => "Le médecin ne consulte pas à cette heure-là le " . $requestedDay . ".",
