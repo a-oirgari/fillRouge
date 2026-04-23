@@ -6,7 +6,10 @@ use App\Models\Message;
 use App\Models\User;
 use App\Events\MessageSent;
 use App\Http\Requests\SendMessageRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Events\CallInitiated;
+use App\Models\Appointment;
 
 class MessageController extends Controller
 {
@@ -48,7 +51,7 @@ class MessageController extends Controller
             $q->where('sender_id', $contact->id)->where('receiver_id', $user->id);
         })->orderBy('sent_at')->with('sender')->get();
 
-        // Marquer comme lus
+        
         Message::where('sender_id', $contact->id)
             ->where('receiver_id', $user->id)
             ->where('read', false)
@@ -62,7 +65,7 @@ class MessageController extends Controller
         return view('messages.conversation', compact('messages', 'contact', 'lastMessageFromContact'));
     }
 
-    public function videoCall(\Illuminate\Http\Request $request, User $contact)
+    public function videoCall(Request $request, User $contact)
     {
         $user = Auth::user();
         
@@ -70,16 +73,15 @@ class MessageController extends Controller
         sort($ids);
         $roomID = 'chat_' . $ids[0] . '_' . $ids[1];
 
-        // Broadcast CallInitiated to alert the other user only if not joining an existing call
+        
         if (!$request->has('join')) {
-            broadcast(new \App\Events\CallInitiated($user, $contact->id));
+            broadcast(new CallInitiated($user, $contact->id));
         }
 
-        // Let's see if there is an active appointment (accepted and today) 
-        // to pass to the view so the doctor can be redirected properly afterwards.
+        
         $appointment = null;
         if ($user->isDoctor()) {
-            $appointment = \App\Models\Appointment::where('doctor_id', $user->doctor->id)
+            $appointment = Appointment::where('doctor_id', $user->doctor->id)
                 ->where('patient_id', $contact->patient->id ?? 0)
                 ->whereIn('status', ['accepted', 'pending'])
                 ->whereDate('date', today())
