@@ -27,7 +27,6 @@ class MessageSent implements ShouldBroadcastNow
 
         return [
             new PrivateChannel($channelName),
-            // Badge dans la nav pour le destinataire (écoute sur private-user.{id})
             new PrivateChannel('user.' . $this->message->receiver_id),
         ];
     }
