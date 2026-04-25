@@ -5,7 +5,7 @@
 <div class="mx-auto flex max-w-3xl flex-col" style="height: calc(100vh - 10rem); min-height: 22rem;" id="chat-app">
     <div class="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
 
-        <!-- Header -->
+        
         <div class="flex flex-shrink-0 items-center gap-3 border-b border-slate-100 p-4">
             <a href="{{ route('messages.index') }}" class="mr-1 text-slate-500 transition hover:text-slate-800">
                 <i class="fas fa-arrow-left"></i>
@@ -33,7 +33,7 @@
             </a>
         </div>
 
-        <!-- Messages (scroll) -->
+        
         <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4" id="messages-container">
             <div class="space-y-3">
                 <div v-for="msg in messages" :key="msg.id"
@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <!-- Zone de saisie (toujours visible en bas) -->
+        
         <div class="flex-shrink-0 border-t border-slate-100 bg-slate-50/80 p-3 sm:p-4">
             <form @submit.prevent="sendMessage" class="flex gap-2 sm:gap-3">
                 <input v-model="newMessage"
