@@ -118,12 +118,12 @@
                 const params = new URLSearchParams(new FormData(searchForm));
                 url.search = params.toString();
 
-                // Add a visual loading state or opacity here if needed
+                
                 container.style.opacity = '0.5';
 
                 fetch(url.toString(), {
                     headers: {
-                        'X-Requested-With': 'XMLHttpRequest' // If we want to return just partial, but full HTML is fine
+                        'X-Requested-With': 'XMLHttpRequest' 
                     }
                 })
                 .then(response => response.text())
@@ -140,7 +140,7 @@
                     console.error('Error fetching doctors:', error);
                     container.style.opacity = '1';
                 });
-            }, 300); // 300ms debounce
+            }, 300); 
         });
     });
 </script>
