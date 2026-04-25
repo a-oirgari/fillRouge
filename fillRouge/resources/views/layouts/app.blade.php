@@ -64,7 +64,7 @@
                     <span class="text-xl font-bold tracking-tight text-slate-900">MediConnect</span>
                 </a>
 
-                <!-- Hamburger Button (Mobile) -->
+                
                 <div class="flex md:hidden items-center gap-3 relative">
                     @auth
                     <a href="{{ route('messages.index') }}" class="relative inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 hover:text-primary-700">
@@ -78,9 +78,9 @@
                     </button>
                 </div>
 
-                <!-- Desktop Navigation -->
+                
                 <div class="hidden md:flex flex-wrap items-center justify-end gap-2 sm:gap-4 md:gap-5">
-                    {{-- Sélecteur de langue --}}
+                    
                     <div class="flex items-center rounded-lg border border-slate-200/90 bg-surface-50 p-0.5 text-xs font-semibold shadow-sm">
                         <a href="{{ route('locale.switch', ['locale' => 'fr']) }}"
                            class="rounded-md px-2.5 py-1.5 transition {{ app()->getLocale() === 'fr' ? 'bg-white text-primary-700 shadow-sm' : 'text-slate-500 hover:text-slate-800' }}">FR</a>
@@ -134,10 +134,10 @@
             </div>
         </div>
 
-        <!-- Mobile Navigation Menu -->
+        
         <div x-show="mobileMenuOpen" x-transition x-cloak class="md:hidden border-t border-slate-100 bg-white/95 backdrop-blur-lg absolute w-full shadow-lg">
             <div class="px-4 pt-4 pb-6 space-y-3 flex flex-col">
-                {{-- Sélecteur de langue Mobile --}}
+                
                 <div class="flex items-center rounded-lg border border-slate-200/90 bg-surface-50 p-1 text-sm font-semibold shadow-sm max-w-[200px] mb-2">
                     <a href="{{ route('locale.switch', ['locale' => 'fr']) }}" class="flex-1 text-center rounded-md px-3 py-2 transition {{ app()->getLocale() === 'fr' ? 'bg-white text-primary-700 shadow-sm' : 'text-slate-500 hover:text-slate-800' }}">FR</a>
                     <a href="{{ route('locale.switch', ['locale' => 'ar']) }}" class="flex-1 text-center rounded-md px-3 py-2 transition {{ app()->getLocale() === 'ar' ? 'bg-white text-primary-700 shadow-sm' : 'text-slate-500 hover:text-slate-800' }}">عربي</a>
@@ -268,7 +268,7 @@
                 }
             });
 
-            // Listen for incoming calls
+            
             ch.bind('App\\Events\\CallInitiated', function(data) {
                 const callPopup = document.createElement('div');
                 callPopup.className = "fixed bottom-5 right-5 z-[9999] bg-white rounded-xl shadow-2xl border-l-4 border-primary-500 p-5 w-80 transform transition-all duration-500 translate-y-full opacity-0";
